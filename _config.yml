@@ -1,8 +1,8 @@
 # Site settings
-title: WongaTech
-email: ?????@wonga.com
+title: wongatech
+email: jobs@wonga.com
 description: > # this means to ignore newlines until "baseurl:"
-  Wonga technology blog
+  Wonga Technology Blog
 baseurl: "http://wongatech.github.io" # the subpath of your site, e.g. /blog/
 url: "http://wongatech.github.io" # the base hostname & protocol for your site
 twitter_username: wongatech
