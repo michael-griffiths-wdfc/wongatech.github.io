@@ -123,7 +123,8 @@ public partial class Returns_go_to_stock : FeatureFixture
 
 ### Reports in HTML, plain text and XML
 
-!!! REPORT SCREENSHOT !!!
+![LightBDD Reports](/images/lightbdd-at-wonga-reports.png)
+
 
 LightBDD generates [test reports in HTML](http://htmlpreview.github.io/?https://github.com/Suremaker/LightBDD/blob/master/ExampleSummaryFiles/FeaturesSummary.html). Anyone can read them and they contain a lot of useful detail. It can also generate plain text or XML for further processing.
 
