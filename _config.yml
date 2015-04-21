@@ -12,4 +12,4 @@ github_username:  wongatech
 highlighter: pygments
 
 # Build settings
-markdown: redcarpet
+#markdown: redcarpet
