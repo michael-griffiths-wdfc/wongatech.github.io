@@ -18,15 +18,20 @@ redcarpet:
 authors:
   wojciechkotlarski:
     display_name: Wojciech Kotlarski
-    gravatar: d5390c88bd988bfe08dfa51c5e45ed48
     github: Suremaker
   bengodfrey:
     display_name: Ben Godfrey
-    gravatar: c3649388fd9af95667fc2fde3aac7938
     github: afternoon
-    twitter: afternoon
   paulbourke:
     display_name: Paul Bourke
-    gravatar: 59adba2d05b317af2443f27e761f44a4
     github: brk3
-    twitter: brk3
+  edconolly:
+    display_name: Ed Conolly
+    github: edconolly
+  julienwetterwald:
+    display_name: Julien Wetterwald
+    github: julienwetterwald
+  carlpearse:
+    display_name: Carl Pearse
+  ronshteinberg:
+    display_name: Ron Shteinberg
