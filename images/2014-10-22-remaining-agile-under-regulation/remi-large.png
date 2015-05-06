@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	 <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>tech.wonga.com</title>
+        <meta name="description" content="description - ">
+        <meta name="keywords" content="keywords - ">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+        
+
+       
+       
+         <!-- Font styling for iPad, iPod -->
+         <meta http-equiv="cleartype" content="on">
+
+        <link rel="stylesheet" href="http://tech.wonga.com/css/normalize.min.css">
+    	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+    	<link rel="stylesheet" href="http://tech.wonga.com/css/main.css">
+
+    	<script src="http://tech.wonga.com/js/jwplayer/jwplayer-9.js"></script>
+        	
+    	<script type="text/javascript">var switchTo5x=true;</script>
+		<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+		<script type="text/javascript">stLight.options({publisher: "4928de47-6b4b-4fc0-827f-53332c660feb", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+		<!--[if lt IE 9]>
+            <script type="text/javascript" src="http://tech.wonga.com/js/respond.min.js"></script>
+            <script type="text/javascript" src="http://tech.wonga.com/js/modernizr.2.6.2.min.js"></script>
+            <link rel="stylesheet" href="http://tech.wonga.com/css/ie8.css">
+		<![endif]-->
+
+		<!--[if gte IE 9]>
+		  <style type="text/css">
+		    .gradient {
+		       filter: none;
+		    }
+		  </style>
+		<![endif]-->
+		
+		<!-- Google Tag Manager datalayer -->
+		<script>
+		dataLayer = [];
+		</script>
+
+
+	 </head>
+	 <body>
+	 <!-- Google Tag Manager for tech.wonga.com-->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-FS73G"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-FS73G');</script>
+<!-- End Google Tag Manager -->
+	 
+ <div class="header-wrapper">
+      <nav id="nav">
+        <ul>
+          <li class="navigation-header">Navigation</li>
+          <li><a  href="http://tech.wonga.com/">home</a></li>
+          <li><a  href="http://tech.wonga.com/technology">technology</a></li>
+          <li><a  href="http://tech.wonga.com/staff">team</a></li>
+          <li><a  href="http://tech.wonga.com/blog">blog</a></li>
+          <li><a  href="http://tech.wonga.com/puzzle">puzzle</a></li>
+          <li><a  href="http://tech.wonga.com/we-are-hiring">we're hiring</a></li>
+          <li><a  href="http://tech.wonga.com/culture">culture</a></li>
+          <li><a  href="http://tech.wonga.com/about-wonga">about wonga</a></li>
+        </ul>
+      </nav>
+    </div>
+	 <div id="content">
+	 <header id="header" class="clearfix">
+		<div class="header-wrapper">
+			<div class="head">
+					<div id="activator"></div>
+			</div>
+				<div id="logo"></div>
+				<!--
+				<nav id="big-nav">
+				<ul>
+					<li><a  href="http://tech.wonga.com/technology">technology</a></li>
+					<li><a  href="http://tech.wonga.com/staff">team</a></li>
+					<li><a  href="http://tech.wonga.com/blog">blog</a></li>
+					<li><a  href="http://tech.wonga.com/puzzle">puzzle</a></li>
+					<li><a  href="http://tech.wonga.com/we-are-hiring">we're hiring</a></li>
+					<li><a  href="http://tech.wonga.com/culture">culture</a></li>
+					<li><a  href="http://tech.wonga.com/about-wonga">about wonga</a></li>
+				</ul>
+			</nav>
+			-->
+		</div>
+	</header> <!-- end header content -->
+
+		<div id="main">
+		  <div class="middle-content">
+		
+			<section id="tech" class="clearfix">
+				<div class="outer-wrapper clearfix">
+					<div class="wrapper">
+						<div class="tech-text">
+							<h1>tech.wonga.com</h1>
+							<p>We’re an award-winning global digital finance company. We use our trailblazing technology to solve people’s short-term cash flow needs in an innovative and consumer-friendly way.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="wrapper">
+
+			<!--Home Page Latest blog-->
+			
+			<section id="blog-mobile" class="clearfix">
+				<div class="cycle-slideshow" 
+				    data-cycle-fx=scrollHorz
+				    data-cycle-timeout="5000"
+				    data-cycle-swipe=true
+				    data-cycle-prev=".left"
+				    data-cycle-next=".right"
+				    data-cycle-auto-height="calc"
+				    data-cycle-slides="> article"
+				    >
+				    
+				    <article>
+				    	<figure>
+				    	<a href="http://tech.wonga.com/blog/blog-view/remaining-agile-under-regulation">
+				    	                     	<img src="http://tech.wonga.com/images/blog/remi-cropped.png" alt="Remaining agile under regulation">
+										    	</a>
+				    	</figure>
+				    	<h4><a href="http://tech.wonga.com/blog/blog-view/remaining-agile-under-regulation">Remaining agile under regulation</a></h4>
+				    	<span class="date">22.10.2014</span>
+				    </article>
+				    
+				    <article>
+				    	<figure>
+				    	<a href="http://tech.wonga.com/blog/blog-view/angularjslondon-acceptance-testing-with-cucumber.js-and-protractor">
+				    	                     	<img src="http://tech.wonga.com/images/blog/angularjslondon-acceptance-testing.jpg" alt="#AngularJSLondon: Acceptance testing with Cucumber.js and Protractor">
+										    	</a>
+				    	</figure>
+				    	<h4><a href="http://tech.wonga.com/blog/blog-view/angularjslondon-acceptance-testing-with-cucumber.js-and-protractor">#AngularJSLondon: Acceptance testing with Cucumber.js and Protractor</a></h4>
+				    	<span class="date">01.10.2014</span>
+				    </article>
+				    
+				    <article>
+				    	<figure>
+				    	<a href="http://tech.wonga.com/blog/blog-view/september-london-phonegap-meetup">
+				    	                     	<img src="http://tech.wonga.com/images/blog/londonphonegap.jpg" alt="September London PhoneGap Meetup">
+										    	</a>
+				    	</figure>
+				    	<h4><a href="http://tech.wonga.com/blog/blog-view/september-london-phonegap-meetup">September London PhoneGap Meetup</a></h4>
+				    	<span class="date">22.09.2014</span>
+				    </article>
+				    
+				    <article>
+				    	<figure>
+				    	<a href="http://tech.wonga.com/blog/blog-view/cross-functional-feature-teams-arent-the-holy-grail">
+				    	                     	<img src="http://tech.wonga.com/images/blog/superhero-kids.jpg" alt="Cross Functional Feature Teams aren’t the Holy Grail!">
+										    	</a>
+				    	</figure>
+				    	<h4><a href="http://tech.wonga.com/blog/blog-view/cross-functional-feature-teams-arent-the-holy-grail">Cross Functional Feature Teams aren’t the Holy Grail!</a></h4>
+				    	<span class="date">08.07.2014</span>
+				    </article>
+				    
+				    <article>
+				    	<figure>
+				    	<a href="http://tech.wonga.com/blog/blog-view/unifying-generic-type-parameters-using-mono-cecil">
+				    	                     	<img src="http://tech.wonga.com/images/blog/colourful-background.jpg" alt="Unifying generic type parameters using Mono Cecil">
+										    	</a>
+				    	</figure>
+				    	<h4><a href="http://tech.wonga.com/blog/blog-view/unifying-generic-type-parameters-using-mono-cecil">Unifying generic type parameters using Mono Cecil</a></h4>
+				    	<span class="date">02.04.2014</span>
+				    </article>
+				    
+				   	<span class="arrow left"></span>
+		    		<span class="arrow right"></span>
+				</div>
+			</section>
+
+			<section id="blog" class="clearfix">
+				<div class="home-panel-display"> 
+				<div class="bloggradient">
+					
+						<article class="blog-post clearfix">
+							<span class="date">22.10.2014</span>
+							<h4><a href="http://tech.wonga.com/blog/blog-view/remaining-agile-under-regulation">Remaining agile under regulation</a></h4>
+							<figure>
+							<a href="http://tech.wonga.com/blog/blog-view/remaining-agile-under-regulation">
+															<img src="http://tech.wonga.com/images/blog/remi-cropped.png" alt="Remaining agile under regulation">
+														</a>
+							</figure>
+							<p>
+							How we built a release management system that satisfies regulatory needs while keeping the agility of our teams Wonga&#39;s tech organisation has always implemented agile development methodologies. Most of the teams are scrum teams releasing a new version at the end of each sprint cycle (usually every 2 weeks). With the recent introduction of our new regulator,&#8230;
+							</p>
+							<a href="http://tech.wonga.com/blog/blog-view/remaining-agile-under-regulation" class="read-more">Read more &raquo;</a>
+						</article>
+					
+						<article class="blog-post clearfix">
+							<span class="date">01.10.2014</span>
+							<h4><a href="http://tech.wonga.com/blog/blog-view/angularjslondon-acceptance-testing-with-cucumber.js-and-protractor">#AngularJSLondon: Acceptance testing with Cucumber.js and Protractor</a></h4>
+							<figure>
+							<a href="http://tech.wonga.com/blog/blog-view/angularjslondon-acceptance-testing-with-cucumber.js-and-protractor">
+															<img src="http://tech.wonga.com/images/blog/angularjslondon-acceptance-testing.jpg" alt="#AngularJSLondon: Acceptance testing with Cucumber.js and Protractor">
+														</a>
+							</figure>
+							<p>
+							Last night we hosted the AngularJS London meetup at our office. Each month the theme alternates between getting started with Angular and Angular in the enterprise, with us hosting the latter. We look at tools and techniques that help teams deliver great Angular apps. A huge part of that is quality and testing, two things we&#39;re very passionate about at Wonga.&#8230;
+							</p>
+							<a href="http://tech.wonga.com/blog/blog-view/angularjslondon-acceptance-testing-with-cucumber.js-and-protractor" class="read-more">Read more &raquo;</a>
+						</article>
+					
+						<article class="blog-post clearfix">
+							<span class="date">22.09.2014</span>
+							<h4><a href="http://tech.wonga.com/blog/blog-view/september-london-phonegap-meetup">September London PhoneGap Meetup</a></h4>
+							<figure>
+							<a href="http://tech.wonga.com/blog/blog-view/september-london-phonegap-meetup">
+															<img src="http://tech.wonga.com/images/blog/londonphonegap.jpg" alt="September London PhoneGap Meetup">
+														</a>
+							</figure>
+							<p>
+							This week we hosted the London PhoneGap Meetup at the Wonga offices in London. PhoneGap allows us to build mobile apps for many different platforms using HTML. Lots of our developers already know HTML and native development has a steep learning curve, so this is a big win for us. The London PhoneGap Meetup is a regular get together for developers using PhoneGap.&#8230;
+							</p>
+							<a href="http://tech.wonga.com/blog/blog-view/september-london-phonegap-meetup" class="read-more">Read more &raquo;</a>
+						</article>
+					
+						<article class="blog-post clearfix">
+							<span class="date">08.07.2014</span>
+							<h4><a href="http://tech.wonga.com/blog/blog-view/cross-functional-feature-teams-arent-the-holy-grail">Cross Functional Feature Teams aren’t the Holy Grail!</a></h4>
+							<figure>
+							<a href="http://tech.wonga.com/blog/blog-view/cross-functional-feature-teams-arent-the-holy-grail">
+															<img src="http://tech.wonga.com/images/blog/superhero-kids.jpg" alt="Cross Functional Feature Teams aren’t the Holy Grail!">
+														</a>
+							</figure>
+							<p>
+							Cross function feature teams are supposed to be the be-all-and-end-all of agile teams. Everything you read on agile project management promotes feature teams, and recommends that you steer well clear of service or component teams. There are some huge benefits that can be realised from cross functional features teams. I am not going to regurgitate them here, so&#8230;
+							</p>
+							<a href="http://tech.wonga.com/blog/blog-view/cross-functional-feature-teams-arent-the-holy-grail" class="read-more">Read more &raquo;</a>
+						</article>
+					
+						<article class="blog-post clearfix">
+							<span class="date">02.04.2014</span>
+							<h4><a href="http://tech.wonga.com/blog/blog-view/unifying-generic-type-parameters-using-mono-cecil">Unifying generic type parameters using Mono Cecil</a></h4>
+							<figure>
+							<a href="http://tech.wonga.com/blog/blog-view/unifying-generic-type-parameters-using-mono-cecil">
+															<img src="http://tech.wonga.com/images/blog/colourful-background.jpg" alt="Unifying generic type parameters using Mono Cecil">
+														</a>
+							</figure>
+							<p>
+							Wonga&rsquo;s backend is composed of autonomous services communicating via messaging using NServiceBus. All in all, our backend services handle close to 2,000 different message types. Our range of products are offered in many countries, and local regulations impose significant variations. In order to manage complexity, our Continuous Integration system is building,&#8230;
+							</p>
+							<a href="http://tech.wonga.com/blog/blog-view/unifying-generic-type-parameters-using-mono-cecil" class="read-more">Read more &raquo;</a>
+						</article>
+					
+				 
+				</div>
+				<a class="btn btn_alt" style="margin-top: -13.5%;" href="http://tech.wonga.com/blog">More blog posts</a>
+				</div>
+			</section>
+			
+			<!--Home Page Latest blog End-->
+			 
+			<!--Home Page CTA-->
+			
+			<section id="staff" class="clearfix">
+				<h2 class="reveal" id="reveal-1" onclick="homePanel('panel1');" >Our team</h2>
+				<div class="home-panel-display" id="panel1">
+					<div class="staffgradient">
+												<ul>
+	<li>
+		Check out what our staff have to say about Wonga.</li>
+	<li>
+		Find out about challenging projects.</li>
+	<li>
+		Get a feel for our culture.</li>
+</ul>       
+					</div>
+				<a class="btn btn_alt" href="http://tech.wonga.com/staff">Meet our staff</a>
+				</div>
+				
+
+				<hr>
+				<h2 class="reveal" id="reveal-2" onclick="homePanel('panel2');" >We're hiring</h2>
+				<div class="home-panel-display" id="panel2">
+					<div class="staffgradient">
+						
+						<ul class="normal">							<li><a href="http://tech.wonga.com/we-are-hiring/group-financial-controller">Group Financial Controller</a></li>
+												
+													<li><a href="http://tech.wonga.com/we-are-hiring/compliance-training-officer">Compliance Training Officer</a></li>
+												
+													<li><a href="http://tech.wonga.com/we-are-hiring/payments-cash-in-manager">Payments (Cash-in) Manager</a></li>
+												
+													<li><a href="http://tech.wonga.com/we-are-hiring/compliance-reporting-analyst">Compliance Reporting Analyst</a></li>
+												
+													<li><a href="http://tech.wonga.com/we-are-hiring/infosec-engineer">Infosec Engineer</a></li>
+						</ul>						
+					</div>
+					<a class="btn btn_alt" href="http://tech.wonga.com/we-are-hiring/">More vacancies</a>
+				</div>
+			</section>
+			<!--Home Page CTA End-->
+			
+			<div class="clearfix"></div>
+
+			<!--Home Page Awards-->
+			<section id="awards">
+				<h2 class="reveal" id="reveal-3" onclick="homePanel('panel3');" >Awards we've won</h2>
+				<div class="home-panel-display" id="panel3">
+				<ul class="clearfix">
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+				
+				
+				
+					<li><img title="Digital Entrepreneur" alt="Digital Entrepreneur" id="award-image-1" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-1").attr("src",'http://tech.wonga.com/images/awards/digital-entrepreneur%402x.jpg');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/digital-entrepreneur.jpg');
+						//alert($("#award-image-1").attr("title"));
+						$("#award-image-1").attr("src","http://tech.wonga.com/images/awards/digital-entrepreneur.jpg");
+					}
+				
+				</script>
+									
+				
+				
+					<li><img title="Webby Awards" alt="Webby Awards" id="award-image-2" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-2").attr("src",'http://tech.wonga.com/images/awards/webby%402x.png');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/webby.png');
+						//alert($("#award-image-2").attr("title"));
+						$("#award-image-2").attr("src","http://tech.wonga.com/images/awards/webby.png");
+					}
+				
+				</script>
+									
+				
+				
+					<li><img title="Tech Tracks" alt="Tech Tracks" id="award-image-3" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-3").attr("src",'http://tech.wonga.com/images/awards/techtrack%402x.png');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/techtrack.png');
+						//alert($("#award-image-3").attr("title"));
+						$("#award-image-3").attr("src","http://tech.wonga.com/images/awards/techtrack.png");
+					}
+				
+				</script>
+									
+				
+				
+					<li><img title="CCR Credit Excellence" alt="CCR Credit Excellence" id="award-image-4" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-4").attr("src",'http://tech.wonga.com/images/awards/ccr%402x.png');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/ccr.png');
+						//alert($("#award-image-4").attr("title"));
+						$("#award-image-4").attr("src","http://tech.wonga.com/images/awards/ccr.png");
+					}
+				
+				</script>
+									
+				
+				
+					<li><img title="National Customer Awards" alt="National Customer Awards" id="award-image-5" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-5").attr("src",'http://tech.wonga.com/images/awards/nationalconsumer%402x.png');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/nationalconsumer.png');
+						//alert($("#award-image-5").attr("title"));
+						$("#award-image-5").attr("src","http://tech.wonga.com/images/awards/nationalconsumer.png");
+					}
+				
+				</script>
+									
+				
+				
+					<li><img title="Telegraph" alt="Telegraph" id="award-image-6" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-6").attr("src",'http://tech.wonga.com/images/awards/telegraph%402x.png');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/telegraph.png');
+						//alert($("#award-image-6").attr("title"));
+						$("#award-image-6").attr("src","http://tech.wonga.com/images/awards/telegraph.png");
+					}
+				
+				</script>
+									
+				
+				
+					<li><img title="Fast Growth Business Award Winner 2011" alt="Fast Growth Business Award Winner 2011" id="award-image-7" /></li>					
+					<script type="text/javascript">
+				
+				var retina = window.devicePixelRatio > 1;
+					if(retina){$("#award-image-7").attr("src",'http://tech.wonga.com/images/awards/fastgrowth%402x.png');
+					}
+					else{//alert('http://tech.wonga.com/images/awards/fastgrowth.png');
+						//alert($("#award-image-7").attr("title"));
+						$("#award-image-7").attr("src","http://tech.wonga.com/images/awards/fastgrowth.png");
+					}
+				
+				</script>
+									
+				</ul>
+				</div>
+				<hr>
+			</section>
+			<!--Home Page Awards End-->
+			
+			</div>
+		  </div>
+			<footer class="clearfix">
+          		<div class="wrapper">
+          			<div class="footer-left">
+            		<p>
+	            		
+	            			Wonga.com is a trading style of WDFC UK Limited. Registered in England and Wales. Registered Number: 6374235. Registered Address: 88 Crawford Street, London, W1H 2EJ. WDFC UK Limited is authorised and regulated by the Financial Conduct Authority in relation to consumer credit loans. Financial Services Register Interim Permission Number 611974.
+E-mail <a href="mailto:recruitment@wonga.com" style="color:#b3d4fc;text-decoration:none;">recruitment@wonga.com</a>
+	            		
+            		</p>
+					</div>
+					<div class="footer-right">
+						<ul class="footer-nav">
+							<li><a href="https://www.wonga.com/" target="_blank">wonga.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;</li>
+							<li><a href="http://www.openwonga.com/" target="_blank">OpenWonga</a></li>
+						</ul>
+					</div>
+          		</div>
+        	</footer>
+      	</div>
+      	</div>
+  		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  		<script src="http://tech.wonga.com/js/validation.js"></script>
+		<script>
+	  		$(document).ready(function(){$(".vacancyfrm").validate();});
+	  	</script>
+  		<script type="text/javascript">
+	     				$(document).ready(function(){$("#vacancy-form").hide();});
+     				</script>
+     				<script type="text/javascript">
+     					$(document).ready(function(){
+	     $("#file-upload").change(function(){
+	$("#path-view").attr('value', $("#file-upload").val());
+	});
+	$("#file-upload-2").change(function(){
+		$("#path-view-2").attr('value', $("#file-upload-2").val());
+		//alert($("#file-upload").val());
+	});
+    
+    	});
+</script>
+    	    	 									
+<!-- Main Slider Start -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+  <script type="text/javascript">
+
+	  function homePanel(id){
+	 
+	  if(!isMobile.any()){$('#'+id).slideToggle();}
+		 
+	  }
+
+		</script>
+<script type="text/javascript" src="http://tech.wonga.com/js/jquery.bxslider.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+	var slider = $('.bxslider').bxSlider({
+		speed: 600,
+		startSlide: 0,
+		auto: true,
+		autoControls: false,
+		moveSlides: 1,
+		minSlides: 1,
+		maxSlides: 3,
+		slideWidth: 31.2,
+		slideMargin: 5,
+		touchEnabled: true
+	});
+	
+	$('.next').click(function(nextSlide) {slider.goToNextSlide();});
+	
+	$('.previous').click(function(previousSlide) {slider.goToPrevSlide();});
+});
+</script>
+
+<!-- Main Slider End-->
+ 				       
+  	
+
+
+ <script type="text/javascript">    
+	  function homePanel(id){
+	 	
+		  $('#'+id).slideToggle();
+		   
+		  //$.getScript('http://tech.wonga.com/js/retina.js');
+	  }
+	  
+	  function vacancyForm(id){
+		  $('#'+id).slideToggle();
+		  if($("#vac-h5").hasClass("h5-btn")){$("#vac-h5").removeClass();}
+		  	else{$("#vac-h5").addClass("h5-btn");}
+		  	//$("#vac-h5").removeClass();    
+	  }
+	  
+	       				
+     				
+	     				$(document).ready(function(){
+	     						if($(window).width() > 700) {
+								    $('#reveal-1').attr('onclick',"");
+								    $('#reveal-2').attr('onclick',"");
+								    $('#reveal-3').attr('onclick',"");
+								    
+								}
+								
+			     				$(window).resize(function() {
+								  if($(window).width()< 700) {
+								    $('#reveal-1').attr('onclick',"homePanel('panel1');"); 
+								    $('#reveal-2').attr('onclick',"homePanel('panel2');"); 
+								    $('#reveal-3').attr('onclick',"homePanel('panel3');"); 
+								}
+								else{
+									 $('#reveal-1').attr('onclick',""); 
+									 $("#panel1").show();
+									 $('#reveal-2').attr('onclick',""); 
+									 $("#panel2").show();
+									 $('#reveal-3').attr('onclick',""); 
+									 $("#panel3").show();
+								}
+								});			
+		     			});
+	     				
+     			
+	  </script>
+   <!--<script src="http://tech.wonga.com/js/retina.js"></script>	  	-->
+  	<script src="http://tech.wonga.com/js/vendor/modernizr-2.6.2.min.js"></script>
+  	<script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>
+  	<script type="text/javascript" src="http://tech.wonga.com/js/fbmenu.js"></script>
+  	<script type="text/javascript" src="http://tech.wonga.com/js/ios-orientation.js"></script>
+  	<script type="text/javascript" src="http://tech.wonga.com/js/jquery.cycle2.min.js"></script>
+  	
+   
+		</body>
+</html>
