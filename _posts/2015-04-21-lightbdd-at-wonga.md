@@ -1,5 +1,4 @@
 ---
-layout: post
 title: LightBDD at Wonga
 author: wojciechkotlarski
 ---

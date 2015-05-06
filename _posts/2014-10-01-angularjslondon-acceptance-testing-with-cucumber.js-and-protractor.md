@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Acceptance testing with Cucumber.js and Protractor
 author: bengodfrey
 ---

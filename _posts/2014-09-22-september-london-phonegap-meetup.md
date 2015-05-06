@@ -1,5 +1,4 @@
 ---
-layout: post
 title: September London PhoneGap Meetup
 author: bengodfrey
 ---

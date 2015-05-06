@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Building, Testing and Maintaining a Website Platform
 author: edconolly
 ---

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Remaining Agile Under Regulation
 author: ronshteinberg
 ---

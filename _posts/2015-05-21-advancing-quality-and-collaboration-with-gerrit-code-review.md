@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Advancing Quality And Collaboration With Gerrit Code Review
 author: paulbourke
 ---

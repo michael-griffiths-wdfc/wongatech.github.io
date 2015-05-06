@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Cross Functional Feature Teams aren’t the Holy Grail!
 author: carlpearse
 ---

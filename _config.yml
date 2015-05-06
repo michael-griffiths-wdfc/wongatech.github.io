@@ -9,29 +9,16 @@ twitter_username: wongatech
 github_username:  wongatech
 highlighter: pygments
 
+# Defaults for posts/pages
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
 # Build settings
 markdown: redcarpet
 redcarpet:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
-
-# Author info
-authors:
-  wojciechkotlarski:
-    display_name: Wojciech Kotlarski
-    github: Suremaker
-  bengodfrey:
-    display_name: Ben Godfrey
-    github: afternoon
-  paulbourke:
-    display_name: Paul Bourke
-    github: brk3
-  edconolly:
-    display_name: Ed Conolly
-    github: edconolly
-  julienwetterwald:
-    display_name: Julien Wetterwald
-    github: julienwetterwald
-  carlpearse:
-    display_name: Carl Pearse
-  ronshteinberg:
-    display_name: Ron Shteinberg

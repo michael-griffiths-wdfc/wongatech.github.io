@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Unifying generic type parameters using Mono Cecil
 author: julienwetterwald
 ---
