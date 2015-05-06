@@ -1,6 +1,7 @@
 ---
 layout: post
 title: LightBDD at Wonga
+author: wojciechkotlarski
 ---
 ![logo](/images/lightbdd-at-wonga-logo.png)
 
@@ -143,5 +144,3 @@ We run our acceptance tests in CI and archive the LightBDD reports. The HTML rep
 If LightBDD sounds interesting, visit the [project page](https://github.com/Suremaker/LightBDD) on GitHub.
 
 It's also worth checking out the [wiki](https://github.com/Suremaker/LightBDD/wiki), which contains a lot more detail about LightBDD's features.
-
--- Wojciech Kotlarski
