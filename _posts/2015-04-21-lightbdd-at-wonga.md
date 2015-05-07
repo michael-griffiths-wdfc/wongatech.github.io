@@ -1,9 +1,7 @@
 ---
-layout: post
 title: LightBDD at Wonga
+author: wojciechkotlarski
 ---
-![logo](/images/lightbdd-at-wonga-logo.png)
-
 After using [FitNesse](http://fitnesse.org/) and [SpecFlow](http://www.specflow.org), I created [LightBDD](https://github.com/Suremaker/LightBDD) as a developer-friendly way to write acceptance tests. LightBDD allows you to write acceptance tests entirely in code, using all the features of your IDE to create, maintain and refactor them, and generates reports that the whole team can use to ensure you're building the right thing.
 
 ## A bit of history: FitNesse
@@ -143,5 +141,3 @@ We run our acceptance tests in CI and archive the LightBDD reports. The HTML rep
 If LightBDD sounds interesting, visit the [project page](https://github.com/Suremaker/LightBDD) on GitHub.
 
 It's also worth checking out the [wiki](https://github.com/Suremaker/LightBDD/wiki), which contains a lot more detail about LightBDD's features.
-
--- Wojciech Kotlarski
