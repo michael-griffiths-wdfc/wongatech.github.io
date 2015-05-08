@@ -181,7 +181,7 @@ use GreeterBundle\Services\Greeter;
 $containerManager = new ContainerManager();
 $container = $containerManager->getContainer();
 
-$route[‘/homepage’] = array(
+$route['/homepage'] = array(
   'page callback' => 'greeter_module_function_homepage',
   'page arguments' => array($container->get('greeter')),
   'type' => MENU_CALLBACK,
@@ -190,7 +190,7 @@ $route[‘/homepage’] = array(
 // ...
 
 function greeter_module_function_homepage(Greeter $greeter) {
-  $result[`title`] = `Homepage!`;
+  $result['title'] = `Homepage!`;
   $result['greeting'] = $greeter->greet();
   return $result;
 }
