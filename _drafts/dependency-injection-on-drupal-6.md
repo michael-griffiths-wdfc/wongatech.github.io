@@ -198,9 +198,9 @@ function greeter_module_function_homepage(Greeter $greeter) {
 
 ## Step 6: Unit testing in isolation
 
-Unit testing in isolation is one of the most important DI pattern features. I’m
-going to show you how we can unit test this Drupal modules mocking the
-`Greeter` class.
+Unit testing in isolation is one of the most important DI pattern features. We
+can now unit test this our Drupal module using a mocked version of the `Greeter`
+class.
 
 ```php
 <?php
@@ -227,5 +227,4 @@ class ModuleFunctionHomePageTest extends PHPUnit_Framework_TestCase {
 
 The `testGreeterModuleFunctionHomePage` test method calls the Drupal module
 callback function with the mocked service and asserts that the return value is
-the greeting returned by our service. This test requires no web server or
-database and will be quicker to run and more stable as a result.
+the greeting returned by our service.
