@@ -3,10 +3,17 @@
 ---
 @charset "utf-8";
 
-
+@font-face {
+  font-family: "Omnes";
+  src: url("/fonts/omnes-regular-webfont.eot");
+  src: url("/fonts/omnes-regular-webfont.eot?#iefix") format("embedded-opentype"),
+       url("/fonts/omnes-regular-webfont.woff") format("woff"),
+       url("/fonts/omnes-regular-webfont.ttf") format("truetype"),
+       url("/fonts/omnes-regular-webfont.svg#omnes-regular-webfont") format("svg");
+}
 
 // Our variables
-$base-font-family: 'Lato', Helvetica, Arial, sans-serif;
+$base-font-family: "Omnes", sans-serif;
 $base-font-size:   20px;
 $small-font-size:  $base-font-size * 0.875;
 $base-line-height: 1.5;
