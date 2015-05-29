@@ -17,7 +17,7 @@ This post will help you to refactor your Drupal 6 code base step-by-step using
 objected-oriented paradigm and will help you to configure the Symfony dependency
 injection container in this framework.
 
-## Step 1: Installing dependencies through Composer
+## Step 1: Installing dependencies with Composer
 
 Composer is now the standard way to install dependencies for your
 PHP applications.
@@ -39,7 +39,7 @@ We'll use the following `composer.json` configuration file:
 }
 ```
 
-## Step 2: Understanding our new OO structure/architecture
+## Step 2: Setup the directory structure
 
 Using the right directory structure makes it easy for developers to understand
 and contribute to our application. Symfony's implementation of the service
@@ -62,7 +62,7 @@ sites/all/modules/custom/GreeterBundle/
 Our code sits within a Drupal custom module, but is structured like a Symfony
 bundle.
 
-## Step 3: A simple service to inject
+## Step 3: Create a service to inject
 
 Our `Greeter` service takes a string (`name = "world"`) in the constructor and
 contains a very simple public method, `greet`, which returns a familiar
@@ -97,7 +97,7 @@ class Greeter
 }
 ```
 
-## Step 4: Setting up the dependency injection container
+## Step 4: Set up the dependency injection container
 
 The `ContainerManager` class provides us with a simple way to get a handle to
 the DI container.
@@ -164,12 +164,13 @@ Take a look at the [Symfony Dependency Injection Component
 documentation](http://symfony.com/doc/current/components/dependency_injection/introduction.html)
 to check more advanced configuration.
 
-## Step 5: Inject my service into a Drupal module function
+## Step 5: Inject our service into a Drupal
 
-We'll set up a Drupal page which uses the dependency injection container to get
-our new service. To do this we create some routing configuration and a callback
-function. The route configuration will use `ContainerManager` to get first the
-container then our service.
+We can now use the dependency injection container to inject services anywhere
+in our Drupal application. As an example, we'll get the `Greeter` service and
+pass it to a page callback function `greeter_module_function_homepage`. To do
+this we create some routing configuration which uses `ContainerManager` to get
+first the container then an instance of `Greeter`.
 
 ```php
 <?php
