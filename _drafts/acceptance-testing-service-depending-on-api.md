@@ -270,3 +270,42 @@ Really, it is not much different in comparison to MounteBank. The difference is 
 In fact, there is one more change. While with MounteBank, we have been specifying an one fixed host with a dedicated PORT per mocked API, here we use the host where tests are being executed from (so the CI build agent one) and the same port for all of mocked APIs, but their URLs have prefixes (like /decision-api in this example). 
 
 ## Cleaning state after each test
+
+There is one more side effect of testing services that synchronously communicates with dependent services.
+
+First, lets take a look back on the NSB version of scenario:
+```c#
+given => An_application(),
+when  => Customer_submits_application(),
+and   => Decision_service_declines_application(),
+then  => Application_should_have_declined_status(),
+and   => An_email_with_decline_reason_should_be_sent_to_customer()
+```
+
+Lets now imagine that, when customer submits application, the application itself changes status to 'submitted', and then decision request is sent to external service.
+What if we would like to just check, that application has changed status correctly?
+
+With the NSB approach, we could just write steps like:
+```c#
+given => An_application(),
+when  => Customer_submits_application(),
+then  => Application_should_have_submitted_status(),
+```
+
+It should be perfectly fine. Of course the service under test would send a request to Decision Service (like in original scenario), but we are not going to do anything with it, so our service will stop processing this application, as it would never receive a response from external service.
+
+Now, if the same communication would be made via HTTP, the story would be totally different.
+Theoretically we still should be able to write test scenario in the same form, and probably if we run it, it would be green.
+But we will also see a lot of errors in logs as our service will not stop on changing application state to 'submitted', but it will be also attempting to retrieve decision from Decision Service.
+Because we have not mocked this behaviour, the response would be invalid and operation would be failing, causing error entries appearing in logs. The service would probably try to retry the failing operation, causing even more errors.
+Of course, those error entries can easily blend with other errors signalling 'a real' issue with the service, so we were not happy to see them.
+
+In fact, such errors destabilised our tests, making next tests failing randomly, because our service was not performing fast enough. It was a good lesson in fact, because it showed a two problems with our service:
+
+* a configuration problem in test environment - we have realised that our service works in single threaded mode,
+* a problem with HTTP API clients, which were using delayed retires in case of error - all the requests were being made from NServiceBus handlers, so the HTTP retries were blocking worker threads, plus the retries were multiplied by the retries that NSB performs on message handler failure.
+
+So, what we had to do to avoid such problems was to:
+
+* mock all APIs with a default behaviour on test startup (where the API behaviour can be still customised during test),
+* on test tear down, go through all applications that has been created during test and bring them to a final state, to ensure that service will not try to perform any more operations on them after mocked API definitions would disappear.
