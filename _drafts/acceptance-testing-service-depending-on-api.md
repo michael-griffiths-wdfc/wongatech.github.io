@@ -3,45 +3,47 @@ title: Acceptance testing service depending on Web API
 author: wojciechkotlarski
 ---
 
-Our current project is a first one where we have started using heavily HTTP calls to communicate between our services.
-Till then, all our solutions were based on asynchronous messaging. We have decided however to become more flexible in choosing a transport protocol that is fitting better to specific situation.
-It means that for situations where we expect rather an immediate effect or response, we use synchronous HTTP calls, where for situations where we expect more that operation eventually would finish but it does not have to happen immediately, we use asynchronous NServiceBus messaging.
-When we started implementing this approach, we have realized that it has a big impact on our service level acceptance tests and the way how we perform them.
+Our current project is the first one where we have started to make heavy use of HTTP communication between services.
+Until now, our inter-service communication was almost exclusively based on asynchronous messaging. We have realized however that we need to introduce more flexibility in our architecture and that async is not always best.
+It means that for situations when we expect an immediate effect or response, we use synchronous HTTP calls, and for situations where we are initiating a long running process, we use asynchronous NServiceBus messaging.
+When we started implementing this approach, we have realized that it has a big impact on tests we run against our services and the how we execute them.
 
 ## 1. How we perform acceptance tests
 
-For each service that we are building, we have a dedicated service level acceptance tests. They are executed every time when [CI](http://en.wikipedia.org/wiki/Continuous_integration) builds and deploys a new version of service. After a successful code compilation and successful unit test execution, the service is deployed on a test environment, and CI runs acceptance tests against it.
-While all internal bits of service are wired up (i.e. its internal database, REST API endpoints and NServiceBus endpoint), all external dependencies are being mocked at this point.
+For each service that we are building, we have a dedicated service level acceptance tests. They are executed every time when our [Continuous Integration process](http://en.wikipedia.org/wiki/Continuous_integration) builds and deploys a new version of the service. After code is successfully compiled and unit tests execute successfully, the service is deployed on a test environment, and our CI environment triggers the acceptance tests against it.
+While all internal parts of a service are wired up (i.e. its database, REST API endpoints and NServiceBus endpoint), all external dependencies are being mocked at this point.
 It means that service is not physically communicating to any other services, but instead our test framework is simulating their behaviour.
 
-Testing service in isolation gives us benefits like:
+## CONSIDER INSERTING A DIAGRAM HERE?
 
-* ability to test our service even if dependent component are not finished yet,
-* better test stability, as our tests are not failing if dependent component is faulty at given moment,
-* clear test output, as we know that a failed test means that our component has a bug, not like in system tests, where our service, any of dependent services or infrastructure can be a cause of test failure,
-* better test performance, as all the operations are not going through entire system, but only through our components.
+Testing a service in isolation gives us benefits like:
+
+* The ability to test our service even if dependent components are not finished yet.
+* Better test stability - our tests are not failing if dependent components are faulty at that time.
+* Clear test output - we know a failed test means our component has a bug - not some other service.
+* Better test performance - operations are not hitting the entire system, only through our components.
 
 ## 2. Mocking external dependencies
 
-There are few options, how communication to external services could be mocked.
+There are a few options when considering how to mock external services.
 
-#### Mocking by changing implementation
-The first option is that service code could contain a multiple implementations of classes responsible for communication.
-For example, ```ICustomerDetailsProvider``` interface could have ```RestCustomerDetailsProvider``` and ```MockCustomerDetailsProvider``` implementation.
-The service could have now a setting in app.config, specifying which implementation should be used on which environment.
-For test environment a mock version would be used then.
+#### Mocking by changing the implementation
+The first option is to replace the concrete implementation with a mocked implementation which mimics the behaviour of the external service.
+For example, ```ICustomerDetailsProvider``` interface could have a concrete implementation ```RestCustomerDetailsProvider``` and a mock implementation ```MockCustomerDetailsProvider```.
+The service can now specify in the applications configuration, which implementation should be used on which environment.
+And in our test environment we can specify the mock implementation.
 
 The advantage of this approach is simplicity, however there are few disadvantages as well:
 
-* first of all, the tested code and code running on production environment is slightly different,
-* a production code may be potentially mixed with a test code (as ```MockCustomerDetailsProvider``` implementation is always present, but never used on production),
-* any problems related to the implementation of ```RestCustomerDetailsProvider``` would be detected much later (during a system tests or in worst scenario, after deployment to production).
+* First of all, the tested code and code running on production environment is slightly different,
+* There is a possibility that the mock implementation can get deployed in an environment where you want the real implementation since the Mock is always present in the code base,
+* Any problems related to the implementation of ```RestCustomerDetailsProvider``` would be detected much later (during system tests or in the case worst scenario, after deployment to production).
 
-There are following examples of problems that ```RestCustomerDetailsProvider``` could cause, and which would not be detected early:
+The following are some examples of problems that can won't be surfaced if the actual ```RestCustomerDetailsProvider``` implementation is not exercised:
 
-* data serialization issues (i.e. classes used to transfer data may not serialize properly because due to some design constraints of serialization framework),
-* data mapping issues (i.e. domain model can be wrongly mapped to entities used during communication),
-* error handling issues (i.e. a HTTP client can return different status codes than expected, causing different behaviour of service).
+* Data serialization issues - classes used to transfer data may not serialize properly.
+* Data mapping issues - the domain model might be mapped incorrectly to  entities used for communication.
+* Error handling issues - a HTTP client can return different status codes than expected, causing different behaviour of the service.
 
 #### Mocking by providing a fake version of external services
 
