@@ -146,23 +146,23 @@ private void An_email_with_decline_reason_should_be_sent_to_customer()
 }
 ```
 
-The good thing about mocking services that use a message bus, is that it is possible to model mocked service behaviour during the test execution, which gives more flexibility to model test scenarios.
+The great thing about mocking services that use a message bus, is that it is possible to model mocked service behaviour during the test execution, which gives more flexibility to model test scenarios.
 
 ## 4. Mocking dependencies that uses HTTP protocol (REST API)
 
-Mocking REST API (or any other HTTP based API) also looks simple. In this case, our service under test would have a setting like:
+Mocking a REST API (or any other HTTP based API) also looks fairly simple. In this case, our service under test would have a setting like this:
 ```xml
 <appSettings>
     <add key="ExternalApiBaseUrl" value="http://some-host:1234/external-api" />
 </appSettings>
 ```
 
-When service is deployed in testing environment, it is a matter of changing this URL to point to a mock version of API.
+And when the service is deployed in testing environment, it is a matter of changing this URL to point to a mock version of API much like we did for the message bus example.
 
-What is more tricky is that unlike to NServiceBus mocks, HTTP calls are synchronous which means that an external service behaviour has to be mocked before test, not during it.
-It is because as soon as we initiate an operation on our service under test, it will attempt to call an external API, expecting an immediate response.
+Now unlike mocks based on message bus communication, HTTP calls are synchronous which means that an external service behaviour has to be mocked before the test, not during it.
+This is because once we initiate an operation on our service under test, it will attempt to call the external API, expecting an immediate response.  In contrast with asynchronous messaging for example where you can simply initiate the operation and stuff the message you expect as a response afterwards without any prior setup required.
 
-If the Decision Service from above example exposes REST API, the test scenario would have to be restated into something like:
+If the Decision Service from the above example exposes REST API, the test scenario would have to be restated into something like:
 
 ```c#
 [Test]
@@ -170,7 +170,7 @@ private void Customer_should_receive_an_email_for_declined_application()
 {
     Runner.RunScenario(
         given => An_application(),
-        and   => Application_does_not_contain_all_required_details_to_be_accepted(),
+        and   => Application_does_not_contain_sufficient_data_to_be_accepted(),
         when  => Customer_submits_application(),
         then  => Application_should_have_declined_status(),
         and   => An_email_with_decline_reason_should_be_sent_to_customer()
@@ -178,12 +178,9 @@ private void Customer_should_receive_an_email_for_declined_application()
 }
 ```
 
-The step ```and => Application_does_not_contain_all_required_details_to_be_accepted()``` configures a mock API to ensure that application would be declined when customer submits an application.
+The step ```and => Application_does_not_contain_sufficient_data_to_be_accepted()``` configures a mock API to ensure that application would be declined when customer submits an application.  There is a few different ways this can be implemented which we will now explore.
 
-## 5. A various ways of mocking Web API dependencies
-
-In above example, I have not shown the implementation of ```Application_does_not_contain_all_required_details_to_be_accepted()```.
-It is because it would be different, depending on which mocking technique we use.
+## 5. Various ways of mocking Web API dependencies
 
 #### Explicit API stubs
 When we started working on our project, we were creating a stub version of all external APIs that our service was pointing to.
@@ -197,7 +194,7 @@ If we would stick to this approach, it would slow down our development a lot.
 
 If we would continue to follow this approach, we will have to use a predefined, hard-coded identifiers to branch a behaviour of stub, so the implementation of a step configuring mock would be probably something like:
 ```c#
-private void Application_does_not_contain_all_required_details_to_be_accepted()
+private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
     //a predefined application that would be declined by stub API
     _applicationId = Guid.Parse("857bfdcc-c6a2-4fb7-abfa-5d8eb081455d");
@@ -212,7 +209,7 @@ It looked much more promising, because we could dynamically build API stubs.
 We have created a simple wrapper for it to make it a bit easier to use from C# code and we ended up with a implementation like:
 
 ```c#
-private void Application_does_not_contain_all_required_details_to_be_accepted()
+private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
     var driver = new ApiStubDriver("http://test-env-host:2525/");
 
@@ -247,7 +244,7 @@ We are currently using the last one.
 
 Finally, an example implementation with SimpleHttpMock could be like that:
 ```c#
-private void Application_does_not_contain_all_required_details_to_be_accepted()
+private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
     var builder = new MockedHttpServerBuilder();
 
