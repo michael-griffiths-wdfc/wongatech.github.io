@@ -6,11 +6,11 @@ author: wojciechkotlarski
 Our current project is the first one where we have started to make heavy use of HTTP communication between services.
 Until now, our inter-service communication was almost exclusively based on asynchronous messaging. We have realized however that we need to introduce more flexibility in our architecture and that async is not always best.
 It means that for situations when we expect an immediate effect or response, we use synchronous HTTP calls, and for situations where we are initiating a long running process, we use asynchronous NServiceBus messaging.
-When we started implementing this approach, we have realized that it has a big impact on tests we run against our services and the how we execute them.
+Once we started implementing this approach, we realized that it has a big impact on tests we run against our services and the how we execute them.
 
 ## 1. How we perform acceptance tests
 
-For each service that we are building, we have a dedicated service level acceptance tests. They are executed every time when our [Continuous Integration process](http://en.wikipedia.org/wiki/Continuous_integration) builds and deploys a new version of the service. After code is successfully compiled and unit tests execute successfully, the service is deployed on a test environment, and our CI environment triggers the acceptance tests against it.
+For each service that we are building, we have dedicated service level acceptance tests. They are executed every time when our [Continuous Integration process](http://en.wikipedia.org/wiki/Continuous_integration) builds and deploys a new version of the service. After code is successfully compiled and unit tests execute successfully, the service is deployed on a test environment, and our CI environment triggers the acceptance tests against it.
 While all internal parts of a service are wired up (i.e. its database, REST API endpoints and NServiceBus endpoint), all external dependencies are being mocked at this point.
 It means that service is not physically communicating to any other services, but instead our test framework is simulating their behaviour.
 
@@ -36,10 +36,10 @@ And in our test environment we can specify the mock implementation.
 The advantage of this approach is simplicity, however there are few disadvantages as well:
 
 * First of all, the tested code and code running on production environment is slightly different,
-* There is a possibility that the mock implementation can get deployed in an environment where you want the real implementation since the Mock is always present in the code base,
+* There is a possibility that the mock implementation can get deployed in an environment where you want the real implementation since the Mock may be present in the code base,
 * Any problems related to the implementation of ```RestCustomerDetailsProvider``` would be detected much later (during system tests or in the case worst scenario, after deployment to production).
 
-The following are some examples of problems that can won't be surfaced if the actual ```RestCustomerDetailsProvider``` implementation is not exercised:
+The following are some examples of problems that won't be surfaced if the actual ```RestCustomerDetailsProvider``` implementation is not exercised:
 
 * Data serialization issues - classes used to transfer data may not serialize properly.
 * Data mapping issues - the domain model might be mapped incorrectly to  entities used for communication.
@@ -47,11 +47,10 @@ The following are some examples of problems that can won't be surfaced if the ac
 
 #### Mocking by providing a fake version of external services
 
-In this option, the mocking is not happening on a tested service side, but on a dependent service side.
-While the service uses default communication mechanisms (i.e. makes an HTTP call or sends a NSB message), the target service is mocked.
+With this option, the mocking does not happen within the service itself, but rather on the dependant service.  We simply configure our own service to talk to something that acts like the dependent service, this can be over any standard communication mechanism (e.g. HTTP or MSMQ).
 
-This approach eliminates all the disadvantages of previous option, but the cost is that each of external service has to be mocked somehow.
-Our team is using this approach, because proof that service behaves correctly, and ability to detect and fix issues quickly has a bigger value than the cost of mocking services.
+This approach eliminates the disadvantages of the previous option, but the cost is having to manage and deploy a mocked version of the external service somehow.
+Our team is using this approach, because of the strong guarantees it gives us that our service is working correctly, and the ability to detect and fix issues quickly has a bigger value than the extra cost of deploying mocked services.
 
 ## 3. Mocking dependencies that uses messaging protocol (NServiceBus)
 
