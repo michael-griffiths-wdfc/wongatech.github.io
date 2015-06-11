@@ -52,48 +52,50 @@ With this option, the mocking does not happen within the service itself, but rat
 This approach eliminates the disadvantages of the previous option, but the cost is having to manage and deploy a mocked version of the external service somehow.
 Our team is using this approach, because of the strong guarantees it gives us that our service is working correctly, and the ability to detect and fix issues quickly has a bigger value than the extra cost of deploying mocked services.
 
-## 3. Mocking dependencies that uses messaging protocol (NServiceBus)
+## 3. Mocking dependencies that use a messaging protocol (NServiceBus)
 
-Mocking NServiceBus services is a rather easy operation.
-The service can communicate with NServiceBus target service in two ways:
+Mocking the services which we communicate with over a message bus like NServiceBus is pretty straightforward.
+The communication with another NServiceBus service can be grouped into two categories:
 
-* it can send messages (commands or events) to a target NSB service,
-* it can handle messages (commands or events) coming from a target NSB service.
+* **Outgoing** - We are sending messages (commands or events) to another NSB service,
+* **Incoming** - We are handling messages (commands or events) coming from another NSB service.
 
-The information, where the target NSB service is and how messages should be delivered to it, is located in app.config file and is presented below:
+The configuration detailing where the external NSB service is and how messages should be delivered to it, is located in our app.config file and looks something like this:
 
 ```xml
 <UnicastBusConfig>
     <MessageEndpointMappings>
-      <!-- Events that our service would be listening to-->
+      <!-- Events that our service listens to-->
       <add Assembly="Wonga.FirstExternalDependency.Events"    Endpoint="first-dependency-queue-name@some-host" />
 
-      <!-- Commands that our service would sending to external services-->
-      <add Assembly="Wonga.SecondExternalDependency.Commadns" Endpoint="second-dependency-queue-name@some-host" />
+      <!-- Commands that our service sends to external services-->
+      <add Assembly="Wonga.SecondExternalDependency.Commands" Endpoint="second-dependency-queue-name@some-other-host" />
     </MessageEndpointMappings>
   </UnicastBusConfig>
 ```
 
-In order to mock service dependencies, we have to redirect all those messages to a test queue on a host that runs tests, like:
+In order to mock service dependencies, we have to redirect all those messages to a test queue on a host that runs tests, like below (note the different endpoint configuration):
 
 ```xml
 <UnicastBusConfig>
     <MessageEndpointMappings>
-      <!-- Events that our service would be listening to-->
+      <!-- Events that our service listens to-->
       <add Assembly="Wonga.FirstExternalDependency.Events"    Endpoint="test-queue@test-env-host" />
 
-      <!-- Commands that our service would sending to external services-->
+      <!-- Commands that our service sends to external services-->
       <add Assembly="Wonga.SecondExternalDependency.Commands" Endpoint="test-queue@test-env-host" />
     </MessageEndpointMappings>
   </UnicastBusConfig>
 ```
 
+We achieve the desired change in the service configuration by applying a [CTT][https://ctt.codeplex.com/] transform when we deploy our service in the test environment (We actually perform this step for all environments to get the desired configuration not just in our test environments)
+
 Now, during test execution, we can:
 
-* assert that our service has sent a message to an external service, by reading messages from _test-queue_,
-* emulate external service behavior by sending its messages to the service queue.
+* Assert that our service has sent a message to an external service, by reading messages from _test-queue_,
+* Emulate the behavior of an external service by sending its messages to the service queue.
 
-An example scenario and steps implementation could look as below:
+An example scenario could look like this (The interesting stuff is in the ```Decision_service_declines_application``` method):
 ```c#
 [Test]
 private void Customer_should_receive_an_email_for_declined_application()
@@ -119,13 +121,13 @@ private void Customer_submits_application()
 
 private void Decision_service_declines_application()
 {
-    //Ensuring that RequestDecisionForApplication would appear in test-queue withing 3 seconds
+    //Ensure that our service sends the expected command to our external decisioning service (we timeout after 3 seconds if it does not happen)
     TestEndpoint.MessageReceiver.WaitFor<RequestDecisionForApplication>(
         TimeSpan.FromSeconds(3),
         request => request.ApplicationId == _applicationId,
         "The DecisionService was not triggered for ApplicationId={0}", _applicationId);
 
-    //Simulating DecisionService decline
+    //Simulating DecisionService decline, here we stuff the message we would expect to receive from Decisions into our own queue
     TestEndpoint.Bus.Send<IApplicationDeclined>(message => message.ApplicationId = _applicationId);
 }
 
@@ -136,7 +138,7 @@ private void Application_should_have_declined_status()
 
 private void An_email_with_decline_reason_should_be_sent_to_customer()
 {
-    //Ensuring that SendDeclineEmail would appear in test-queue withing 3 seconds
+    //Ensure that our service sends the expected command to our external email service (we timeout after 3 seconds if it does not happen)
     TestEndpoint.MessageReceiver.WaitFor<SendDeclineEmail>(
         TimeSpan.FromSeconds(3),
         request => request.ApplicationId == _applicationId,
@@ -144,7 +146,7 @@ private void An_email_with_decline_reason_should_be_sent_to_customer()
 }
 ```
 
-The good thing about mocking services that uses messaging is that it is possible to model mocked service behaviour during test execution, which gives more flexibility to model test scenarios.
+The good thing about mocking services that use a message bus, is that it is possible to model mocked service behaviour during the test execution, which gives more flexibility to model test scenarios.
 
 ## 4. Mocking dependencies that uses HTTP protocol (REST API)
 
