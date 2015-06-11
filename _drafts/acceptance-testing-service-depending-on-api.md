@@ -183,23 +183,13 @@ The step ```and => Application_does_not_contain_sufficient_data_to_be_accepted()
 ## 5. Various ways of mocking Web API dependencies
 
 #### Explicit API stubs
-When we started working on our project, we were creating a stub version of all external APIs that our service was pointing to.
-Those mocks were pretty static in a way, that they were always returning the same response, no matter what request content was.
-At that point we have not had a different test scenarios would require a different behaviour of mocked service (like declining or accepting application etc), however we knew that we would require such ability soon.
+When we started working on our project, we were creating a stub version of all external APIs which were each deployed separatly.  We then configured our service to talk to these deployed mocks in our test environments.
+Those mocks were pretty static, they were always returning the same response, no matter what request came in (e.g. for the Decision service we were always Accepting the application).
+This worked reasonably well at the beginning as we didn't have a lot of different test scenarios requiring different behaviour of the mocked service (e.g. getting a declined application), however we knew that we would soon have that requirement and really the only way to achieve it with this setup would be to use masks (e.g. decline applications with a particular id) which didn't feel like a great idea and not very flexible.
 
-The other problem with this approach was that every new dependency required creation, deployment and maintenance of a dedicated API stubs.
+In addition there is a reasonably large overhead in creating, deploying and maintaining what is effectively a whole new service for each and every external dependency you have just to provide mocking capabilities.
 
-Very quickly, we have realised that it is not a long term solution for us, as we knew that the service we are building is a kind of orchestration service and it will have multiple external dependencies.
-If we would stick to this approach, it would slow down our development a lot.
-
-If we would continue to follow this approach, we will have to use a predefined, hard-coded identifiers to branch a behaviour of stub, so the implementation of a step configuring mock would be probably something like:
-```c#
-private void Application_does_not_contain_sufficient_data_to_be_accepted()
-{
-    //a predefined application that would be declined by stub API
-    _applicationId = Guid.Parse("857bfdcc-c6a2-4fb7-abfa-5d8eb081455d");
-}
-```
+Very quickly, we realised that this was not going to work for us long term, as we knew that the service we were building was doing a bunch of orchestration and thus had a significant number external dependencies.  If we had to go and create/deploy/maintain a mock service for each one it was going to slow us down an awful lot.
 
 #### Dynamically configurable generic stubs - MounteBank
 
