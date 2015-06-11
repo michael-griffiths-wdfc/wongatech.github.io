@@ -193,10 +193,11 @@ Very quickly, we realised that this was not going to work for us long term, as w
 
 #### Dynamically configurable generic stubs - MounteBank
 
-Soon, when we realised that explicit API stubs are not the way we would like to go, we have found a [MounteBank](http://www.mbtest.org/) project, described in [Building Microservices](http://info.thoughtworks.com/building-microservices-book) book.
+After determining that the first approach wasn't suitable for us we did some research and came across a nice tool called [MounteBank](http://www.mbtest.org/), as described in Sam Newman's [Building Microservices](http://info.thoughtworks.com/building-microservices-book) book.
 
-It looked much more promising, because we could dynamically build API stubs.
-We have created a simple wrapper for it to make it a bit easier to use from C# code and we ended up with a implementation like:
+It looked much more promising, because we could dynamically build API stubs and reconfigure them on the fly which meant we did not have to create a whole new service for each external dependency, we could have just one Mountebank service deployed and during each test run we could configure it as we wish.
+
+We created a simple wrapper for it to make it a bit easier to use from C# code and we ended up with a implementation like this:
 
 ```c#
 private void Application_does_not_contain_sufficient_data_to_be_accepted()
@@ -212,7 +213,7 @@ private void Application_does_not_contain_sufficient_data_to_be_accepted()
 }
 ```
 
-With MounteBank we could limit our external dependencies that have to be present in testing environment to one. It was a great improvement.
+With MounteBank we effectively reduced the external dependencies that have to be present in a testing environment to one which was much more manageable and it was a great improvement.
 
 #### In process, ad hoc mocks
 While MounteBank was a great improvement for our tests, there were still a few drawbacks of using it:
