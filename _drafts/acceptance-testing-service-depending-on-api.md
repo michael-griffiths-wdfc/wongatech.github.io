@@ -216,24 +216,24 @@ private void Application_does_not_contain_sufficient_data_to_be_accepted()
 With MounteBank we effectively reduced the external dependencies that have to be present in a testing environment to one which was much more manageable and it was a great improvement.
 
 #### In process, ad hoc mocks
-While MounteBank was a great improvement for our tests, there were still a few drawbacks of using it:
+While MounteBank was a great improvement, there were still a few drawbacks with it:
 
 * there was still a physical dependency on MounteBank itself, that had to be deployed before we could run our tests; we are running those tests on our test environment, and on each developer box, so the MounteBank service had to be pre-installed on all those boxes,
 * the MounteBank instance became a shared component between all our test projects, so there was a risk that two projects running at the same time could interfere with each other,
-* finally the stubbed API definitions were being preserved between tests run as we have been not cleaning them up, so those stubs could be used by other tests as well.
+* finally the stubbed API definitions were being preserved between tests run as we were not cleaning them up, so those stubs could unintentially impact other tests leading to flickering tests.
 
-The overall effect was that the tests were not really executed in full isolation. While all of the problems stated above could be fixed and we could still use MounteBank happily, we have decided to use something more lightweight from a deployment perspective.
+The overall effect of these problems is that the tests are not really executed in full isolation. While they can all be solved and you could use Mountebank very effectively for service tests, we were striving for something more lightweight from a deployment perspective.
 
-Finally, we have switched to ad hoc mocks that are hosted in the same process in which tests are being executed.
+Finally, we have switched to ad hoc mocks that are hosted within the same process in which tests are being executed.
 There is at least few open-source projects on GitHub that could be used for that:
 
 * [HttpMock](https://github.com/hibri/HttpMock),
 * [Moksy](https://github.com/greyham/Moksy),
 * [SimpleHttpMock](https://github.com/xiaoyvr/SimpleHttpMock).
 
-We are currently using the last one.
+We are currently using the SimpleHttpMock.
 
-Finally, an example implementation with SimpleHttpMock could be like that:
+Here is an example implementation of setting up a declined application using the ad-hoc SimpleHttpMock:
 ```c#
 private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
@@ -246,9 +246,8 @@ private void Application_does_not_contain_sufficient_data_to_be_accepted()
 }
 ```
 
-Really, it is very similar to the MounteBank. The difference is that, the ```_mockApiServer``` is instantiated for each test and disposed after test finish, which means that each test works on own API stubs.
-All the tests are now running in isolation, so there is no interference between them.
-Also, while with MounteBank, all the projects were using the same physical instance of MounteBank to stub API, here each build job that executes test project, uses own ad hoc stubs. 
+As you can see, it is very similar to MounteBank. The difference is that the ```_mockApiServer``` is instantiated for each test and disposed after each test finishes, which means that each test works on it's own API stubs and cannot affect another test giving much greater guarantees of test isolation.
+Also, while with MounteBank, all the projects were using the same physical instance of MounteBank to stub the API, here each build job that executes test project, uses own ad hoc stubs, and because they are in the test runner's process they are guaranteed to be disposed of once the test runner finishes leading to a much cleaner environment.
 
 ## 6. Cleaning service state after each test
 
