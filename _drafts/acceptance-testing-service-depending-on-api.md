@@ -253,7 +253,7 @@ Also, while with MounteBank, all the projects were using the same physical insta
 
 There is one more side effect of testing services that synchronously communicates with dependent services.
 
-First, lets take a look back on the NSB version of scenario:
+First, lets take a look back at the message bus version of the scenario:
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
@@ -262,26 +262,26 @@ then  => Application_should_have_declined_status(),
 and   => An_email_with_decline_reason_should_be_sent_to_customer()
 ```
 
-Lets now imagine that when customer submits an application, the application itself changes status to 'submitted' state, and then decision request is being sent to the Decision Service.
-What if we would like to just check, that the application status has been changed correctly?
+Let's now imagine that when a customer submits an application, the application itself changes status to 'submitted' state, and then the decision request is being sent to the Decision Service.
+What if we would like to just check, that the application status has been changed correctly and don't care about any of the subsequent steps?
 
-With the NSB approach, we could just write scenario like:
+With the NSB approach, we could just write a scenario like this and it would be fine:
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
 then  => Application_should_have_submitted_status(),
 ```
 
-It would be perfectly fine. Of course the service would still send a request to the Decision Service (like in original scenario), but as we are not going to do anything with it, the service will stop processing this application, because it would never receive a response from mocked Decision Service.
+Of course the service would still send a request to the Decision Service (like in original scenario), but as we are not going to do anything with it, the service will stop processing this application, because it would never receive a response from mocked Decision Service.
 
 Now, if the same communication would be made via HTTP, the story would be slightly different.
-Theoretically we still should be able to write test scenario in the same form, and if we run it, it should be green.
-However, we will also see a lot of errors in the logs, as our service will not stop on changing application state to 'submitted', but it will be also attempting to retrieve decision from Decision Service.
-Because we have not mocked this behaviour, the response would be invalid and operation would be failing, causing error entries appearing in logs. The service would probably try to retry the failing operation, causing even more errors. Those error entries would be blending easily with other errors signalling 'a real' issue with the service, so we were not happy about receiving them.
+Theoretically we still should be able to write the test scenario in the same form, and if we run it, it should be green.
+However, we will also see a lot of errors in the logs, as our service will not stop on changing application state to 'submitted', but it will be also attempting to retrieve a decision from the Decision Service.
+Because we have not mocked this behaviour, the response would be invalid and operation would be failing, causing error entries in the logs. The service would probably attempt to retry the failing operation, causing even more errors. Those error entries would be blending easily with other errors signalling 'a real' issue with the service, so there would be a lot of noise and we would find it hard to diagnose the real problems.
 
-So, what we did to do to avoid such errors was to:
+So, what we did to avoid such errors was:
 
-* mock all APIs with a default behaviour on test startup (where the API behaviour can be still customised during test),
-* on test tear down, go through all applications that has been created during test and bring them to a final state, to ensure that service will not try to perform any more operations on them after test, so when mocked API definitions would not exist any more.
+* mock all APIs with a default behaviour on test startup (where the API behaviour can still be customised during the test),
+* on test tear down, go through all applications that have been created during the test and bring them to a stable final state, to ensure that service will not try to perform any more operations on them after our test, so when mocked API definitions would not exist any more.
 
-Those two changes allowed us to still have a clear test scenarios, without a need of adding steps just to ensure that tested service has finished work before test finish.
+Those two changes allowed us maintain simple test scenarios which have a clear intent, without adding steps just to ensure that tested service has finished work before the test finishes.
