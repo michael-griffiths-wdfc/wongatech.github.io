@@ -229,7 +229,7 @@ There is at least few open-source projects on GitHub that could be used for that
 
 * [HttpMock](https://github.com/hibri/HttpMock),
 * [Moksy](https://github.com/greyham/Moksy),
-* [SimpleHttpMock](https://github.com/xiaoyvr/SimpleHttpMock).
+* [SimpleHttpMock](https://github.com/wongatech/SimpleHttpMock).
 
 We are currently using the SimpleHttpMock.
 
