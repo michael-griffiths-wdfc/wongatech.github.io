@@ -6,11 +6,11 @@ author: wojciechkotlarski
 Our current project is the first one where we have started to make heavy use of HTTP communication between services.
 Until now, our inter-service communication was almost exclusively based on asynchronous messaging. We have realized however that we need to introduce more flexibility in our architecture and that async is not always best.
 It means that for situations when we expect an immediate effect or response, we use synchronous HTTP calls, and for situations where we are initiating a long running process, we use asynchronous NServiceBus messaging.
-When we started implementing this approach, we have realized that it has a big impact on tests we run against our services and the how we execute them.
+Once we started implementing this approach, we realized that it has a big impact on tests we run against our services and the how we execute them.
 
 ## 1. How we perform acceptance tests
 
-For each service that we are building, we have a dedicated service level acceptance tests. They are executed every time when our [Continuous Integration process](http://en.wikipedia.org/wiki/Continuous_integration) builds and deploys a new version of the service. After code is successfully compiled and unit tests execute successfully, the service is deployed on a test environment, and our CI environment triggers the acceptance tests against it.
+For each service that we are building, we have dedicated service level acceptance tests. They are executed every time when our [Continuous Integration process](http://en.wikipedia.org/wiki/Continuous_integration) builds and deploys a new version of the service. After code is successfully compiled and unit tests execute successfully, the service is deployed on a test environment, and our CI environment triggers the acceptance tests against it.
 While all internal parts of a service are wired up (i.e. its database, REST API endpoints and NServiceBus endpoint), all external dependencies are being mocked at this point.
 It means that service is not physically communicating to any other services, but instead our test framework is simulating their behaviour.
 
@@ -36,10 +36,10 @@ And in our test environment we can specify the mock implementation.
 The advantage of this approach is simplicity, however there are few disadvantages as well:
 
 * First of all, the tested code and code running on production environment is slightly different,
-* There is a possibility that the mock implementation can get deployed in an environment where you want the real implementation since the Mock is always present in the code base,
+* There is a possibility that the mock implementation can get deployed in an environment where you want the real implementation since the Mock may be present in the code base,
 * Any problems related to the implementation of ```RestCustomerDetailsProvider``` would be detected much later (during system tests or in the case worst scenario, after deployment to production).
 
-The following are some examples of problems that can won't be surfaced if the actual ```RestCustomerDetailsProvider``` implementation is not exercised:
+The following are some examples of problems that won't be surfaced if the actual ```RestCustomerDetailsProvider``` implementation is not exercised:
 
 * Data serialization issues - classes used to transfer data may not serialize properly.
 * Data mapping issues - the domain model might be mapped incorrectly to  entities used for communication.
@@ -47,54 +47,55 @@ The following are some examples of problems that can won't be surfaced if the ac
 
 #### Mocking by providing a fake version of external services
 
-In this option, the mocking is not happening on a tested service side, but on a dependent service side.
-While the service uses default communication mechanisms (i.e. makes an HTTP call or sends a NSB message), the target service is mocked.
+With this option, the mocking does not happen within the service itself, but rather on the dependant service.  We simply configure our own service to talk to something that acts like the dependent service, this can be over any standard communication mechanism (e.g. HTTP or MSMQ).
 
-This approach eliminates all the disadvantages of previous option, but the cost is that each of external service has to be mocked somehow.
-Our team is using this approach, because proof that service behaves correctly, and ability to detect and fix issues quickly has a bigger value than the cost of mocking services.
+This approach eliminates the disadvantages of the previous option, but the cost is having to manage and deploy a mocked version of the external service somehow.
+Our team is using this approach, because of the strong guarantees it gives us that our service is working correctly, and the ability to detect and fix issues quickly has a bigger value than the extra cost of deploying mocked services.
 
-## 3. Mocking dependencies that uses messaging protocol (NServiceBus)
+## 3. Mocking dependencies that use a messaging protocol (NServiceBus)
 
-Mocking NServiceBus services is a rather easy operation.
-The service can communicate with NServiceBus target service in two ways:
+Mocking the services which we communicate with over a message bus like NServiceBus is pretty straightforward.
+The communication with another NServiceBus service can be grouped into two categories:
 
-* it can send messages (commands or events) to a target NSB service,
-* it can handle messages (commands or events) coming from a target NSB service.
+* **Outgoing** - We are sending messages (commands or events) to another NSB service,
+* **Incoming** - We are handling messages (commands or events) coming from another NSB service.
 
-The information, where the target NSB service is and how messages should be delivered to it, is located in app.config file and is presented below:
+The configuration detailing where the external NSB service is and how messages should be delivered to it, is located in our app.config file and looks something like this:
 
 ```xml
 <UnicastBusConfig>
     <MessageEndpointMappings>
-      <!-- Events that our service would be listening to-->
+      <!-- Events that our service listens to-->
       <add Assembly="Wonga.FirstExternalDependency.Events"    Endpoint="first-dependency-queue-name@some-host" />
 
-      <!-- Commands that our service would sending to external services-->
-      <add Assembly="Wonga.SecondExternalDependency.Commadns" Endpoint="second-dependency-queue-name@some-host" />
+      <!-- Commands that our service sends to external services-->
+      <add Assembly="Wonga.SecondExternalDependency.Commands" Endpoint="second-dependency-queue-name@some-other-host" />
     </MessageEndpointMappings>
   </UnicastBusConfig>
 ```
 
-In order to mock service dependencies, we have to redirect all those messages to a test queue on a host that runs tests, like:
+In order to mock service dependencies, we have to redirect all those messages to a test queue on a host that runs tests, like below (note the different endpoint configuration):
 
 ```xml
 <UnicastBusConfig>
     <MessageEndpointMappings>
-      <!-- Events that our service would be listening to-->
+      <!-- Events that our service listens to-->
       <add Assembly="Wonga.FirstExternalDependency.Events"    Endpoint="test-queue@test-env-host" />
 
-      <!-- Commands that our service would sending to external services-->
+      <!-- Commands that our service sends to external services-->
       <add Assembly="Wonga.SecondExternalDependency.Commands" Endpoint="test-queue@test-env-host" />
     </MessageEndpointMappings>
   </UnicastBusConfig>
 ```
 
+We achieve the desired change in the service configuration by applying a [CTT][https://ctt.codeplex.com/] transform when we deploy our service in the test environment (We actually perform this step for all environments to get the desired configuration not just in our test environments)
+
 Now, during test execution, we can:
 
-* assert that our service has sent a message to an external service, by reading messages from _test-queue_,
-* emulate external service behavior by sending its messages to the service queue.
+* Assert that our service has sent a message to an external service, by reading messages from _test-queue_,
+* Emulate the behavior of an external service by sending its messages to the service queue.
 
-An example scenario and steps implementation could look as below:
+An example scenario could look like this (The interesting stuff is in the ```Decision_service_declines_application``` method):
 ```c#
 [Test]
 private void Customer_should_receive_an_email_for_declined_application()
@@ -120,13 +121,13 @@ private void Customer_submits_application()
 
 private void Decision_service_declines_application()
 {
-    //Ensuring that RequestDecisionForApplication would appear in test-queue withing 3 seconds
+    //Ensure that our service sends the expected command to our external decisioning service (we timeout after 3 seconds if it does not happen)
     TestEndpoint.MessageReceiver.WaitFor<RequestDecisionForApplication>(
         TimeSpan.FromSeconds(3),
         request => request.ApplicationId == _applicationId,
         "The DecisionService was not triggered for ApplicationId={0}", _applicationId);
 
-    //Simulating DecisionService decline
+    //Simulating DecisionService decline, here we stuff the message we would expect to receive from Decisions into our own queue
     TestEndpoint.Bus.Send<IApplicationDeclined>(message => message.ApplicationId = _applicationId);
 }
 
@@ -137,7 +138,7 @@ private void Application_should_have_declined_status()
 
 private void An_email_with_decline_reason_should_be_sent_to_customer()
 {
-    //Ensuring that SendDeclineEmail would appear in test-queue withing 3 seconds
+    //Ensure that our service sends the expected command to our external email service (we timeout after 3 seconds if it does not happen)
     TestEndpoint.MessageReceiver.WaitFor<SendDeclineEmail>(
         TimeSpan.FromSeconds(3),
         request => request.ApplicationId == _applicationId,
@@ -145,23 +146,23 @@ private void An_email_with_decline_reason_should_be_sent_to_customer()
 }
 ```
 
-The good thing about mocking services that uses messaging is that it is possible to model mocked service behaviour during test execution, which gives more flexibility to model test scenarios.
+The great thing about mocking services that use a message bus, is that it is possible to model mocked service behaviour during the test execution, which gives more flexibility to model test scenarios.
 
 ## 4. Mocking dependencies that uses HTTP protocol (REST API)
 
-Mocking REST API (or any other HTTP based API) also looks simple. In this case, our service under test would have a setting like:
+Mocking a REST API (or any other HTTP based API) also looks fairly simple. In this case, our service under test would have a setting like this:
 ```xml
 <appSettings>
     <add key="ExternalApiBaseUrl" value="http://some-host:1234/external-api" />
 </appSettings>
 ```
 
-When service is deployed in testing environment, it is a matter of changing this URL to point to a mock version of API.
+And when the service is deployed in testing environment, it is a matter of changing this URL to point to a mock version of API much like we did for the message bus example.
 
-What is more tricky is that unlike to NServiceBus mocks, HTTP calls are synchronous which means that an external service behaviour has to be mocked before test, not during it.
-It is because as soon as we initiate an operation on our service under test, it will attempt to call an external API, expecting an immediate response.
+Now unlike mocks based on message bus communication, HTTP calls are synchronous which means that an external service behaviour has to be mocked before the test, not during it.
+This is because once we initiate an operation on our service under test, it will attempt to call the external API, expecting an immediate response.  In contrast with asynchronous messaging for example where you can simply initiate the operation and stuff the message you expect as a response afterwards without any prior setup required.
 
-If the Decision Service from above example exposes REST API, the test scenario would have to be restated into something like:
+If the Decision Service from the above example exposes REST API, the test scenario would have to be restated into something like:
 
 ```c#
 [Test]
@@ -169,7 +170,7 @@ private void Customer_should_receive_an_email_for_declined_application()
 {
     Runner.RunScenario(
         given => An_application(),
-        and   => Application_does_not_contain_all_required_details_to_be_accepted(),
+        and   => Application_does_not_contain_sufficient_data_to_be_accepted(),
         when  => Customer_submits_application(),
         then  => Application_should_have_declined_status(),
         and   => An_email_with_decline_reason_should_be_sent_to_customer()
@@ -177,41 +178,29 @@ private void Customer_should_receive_an_email_for_declined_application()
 }
 ```
 
-The step ```and => Application_does_not_contain_all_required_details_to_be_accepted()``` configures a mock API to ensure that application would be declined when customer submits an application.
+The step ```and => Application_does_not_contain_sufficient_data_to_be_accepted()``` configures a mock API to ensure that application would be declined when customer submits an application.  There is a few different ways this can be implemented which we will now explore.
 
-## 5. A various ways of mocking Web API dependencies
-
-In above example, I have not shown the implementation of ```Application_does_not_contain_all_required_details_to_be_accepted()```.
-It is because it would be different, depending on which mocking technique we use.
+## 5. Various ways of mocking Web API dependencies
 
 #### Explicit API stubs
-When we started working on our project, we were creating a stub version of all external APIs that our service was pointing to.
-Those mocks were pretty static in a way, that they were always returning the same response, no matter what request content was.
-At that point we have not had a different test scenarios would require a different behaviour of mocked service (like declining or accepting application etc), however we knew that we would require such ability soon.
+When we started working on our project, we were creating a stub version of all external APIs which were each deployed separatly.  We then configured our service to talk to these deployed mocks in our test environments.
+Those mocks were pretty static, they were always returning the same response, no matter what request came in (e.g. for the Decision service we were always Accepting the application).
+This worked reasonably well at the beginning as we didn't have a lot of different test scenarios requiring different behaviour of the mocked service (e.g. getting a declined application), however we knew that we would soon have that requirement and really the only way to achieve it with this setup would be to use masks (e.g. decline applications with a particular id) which didn't feel like a great idea and not very flexible.
 
-The other problem with this approach was that every new dependency required creation, deployment and maintenance of a dedicated API stubs.
+In addition there is a reasonably large overhead in creating, deploying and maintaining what is effectively a whole new service for each and every external dependency you have just to provide mocking capabilities.
 
-Very quickly, we have realised that it is not a long term solution for us, as we knew that the service we are building is a kind of orchestration service and it will have multiple external dependencies.
-If we would stick to this approach, it would slow down our development a lot.
-
-If we would continue to follow this approach, we will have to use a predefined, hard-coded identifiers to branch a behaviour of stub, so the implementation of a step configuring mock would be probably something like:
-```c#
-private void Application_does_not_contain_all_required_details_to_be_accepted()
-{
-    //a predefined application that would be declined by stub API
-    _applicationId = Guid.Parse("857bfdcc-c6a2-4fb7-abfa-5d8eb081455d");
-}
-```
+Very quickly, we realised that this was not going to work for us long term, as we knew that the service we were building was doing a bunch of orchestration and thus had a significant number external dependencies.  If we had to go and create/deploy/maintain a mock service for each one it was going to slow us down an awful lot.
 
 #### Dynamically configurable generic stubs - MounteBank
 
-Soon, when we realised that explicit API stubs are not the way we would like to go, we have found a [MounteBank](http://www.mbtest.org/) project, described in [Building Microservices](http://info.thoughtworks.com/building-microservices-book) book.
+After determining that the first approach wasn't suitable for us we did some research and came across a nice tool called [MounteBank](http://www.mbtest.org/), as described in Sam Newman's [Building Microservices](http://info.thoughtworks.com/building-microservices-book) book.
 
-It looked much more promising, because we could dynamically build API stubs.
-We have created a simple wrapper for it to make it a bit easier to use from C# code and we ended up with a implementation like:
+It looked much more promising, because we could dynamically build API stubs and reconfigure them on the fly which meant we did not have to create a whole new service for each external dependency, we could have just one Mountebank service deployed and during each test run we could configure it as we wish.
+
+We created a simple wrapper for it to make it a bit easier to use from C# code and we ended up with a implementation like this:
 
 ```c#
-private void Application_does_not_contain_all_required_details_to_be_accepted()
+private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
     var driver = new ApiStubDriver("http://test-env-host:2525/");
 
@@ -224,29 +213,29 @@ private void Application_does_not_contain_all_required_details_to_be_accepted()
 }
 ```
 
-With MounteBank we could limit our external dependencies that have to be present in testing environment to one. It was a great improvement.
+With MounteBank we effectively reduced the external dependencies that have to be present in a testing environment to one which was much more manageable and it was a great improvement.
 
 #### In process, ad hoc mocks
-While MounteBank was a great improvement for our tests, there were still a few drawbacks of using it:
+While MounteBank was a great improvement, there were still a few drawbacks with it:
 
 * there was still a physical dependency on MounteBank itself, that had to be deployed before we could run our tests; we are running those tests on our test environment, and on each developer box, so the MounteBank service had to be pre-installed on all those boxes,
 * the MounteBank instance became a shared component between all our test projects, so there was a risk that two projects running at the same time could interfere with each other,
-* finally the stubbed API definitions were being preserved between tests run as we have been not cleaning them up, so those stubs could be used by other tests as well.
+* finally the stubbed API definitions were being preserved between tests run as we were not cleaning them up, so those stubs could unintentially impact other tests leading to flickering tests.
 
-The overall effect was that the tests were not really executed in full isolation. While all of the problems stated above could be fixed and we could still use MounteBank happily, we have decided to use something more lightweight from a deployment perspective.
+The overall effect of these problems is that the tests are not really executed in full isolation. While they can all be solved and you could use Mountebank very effectively for service tests, we were striving for something more lightweight from a deployment perspective.
 
-Finally, we have switched to ad hoc mocks that are hosted in the same process in which tests are being executed.
+Finally, we have switched to ad hoc mocks that are hosted within the same process in which tests are being executed.
 There is at least few open-source projects on GitHub that could be used for that:
 
 * [HttpMock](https://github.com/hibri/HttpMock),
 * [Moksy](https://github.com/greyham/Moksy),
 * [SimpleHttpMock](https://github.com/xiaoyvr/SimpleHttpMock).
 
-We are currently using the last one.
+We are currently using the SimpleHttpMock.
 
-Finally, an example implementation with SimpleHttpMock could be like that:
+Here is an example implementation of setting up a declined application using the ad-hoc SimpleHttpMock:
 ```c#
-private void Application_does_not_contain_all_required_details_to_be_accepted()
+private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
     var builder = new MockedHttpServerBuilder();
 
@@ -257,15 +246,14 @@ private void Application_does_not_contain_all_required_details_to_be_accepted()
 }
 ```
 
-Really, it is very similar to the MounteBank. The difference is that, the ```_mockApiServer``` is instantiated for each test and disposed after test finish, which means that each test works on own API stubs.
-All the tests are now running in isolation, so there is no interference between them.
-Also, while with MounteBank, all the projects were using the same physical instance of MounteBank to stub API, here each build job that executes test project, uses own ad hoc stubs. 
+As you can see, it is very similar to MounteBank. The difference is that the ```_mockApiServer``` is instantiated for each test and disposed after each test finishes, which means that each test works on it's own API stubs and cannot affect another test giving much greater guarantees of test isolation.
+Also, while with MounteBank, all the projects were using the same physical instance of MounteBank to stub the API, here each build job that executes test project, uses own ad hoc stubs, and because they are in the test runner's process they are guaranteed to be disposed of once the test runner finishes leading to a much cleaner environment.
 
 ## 6. Cleaning service state after each test
 
 There is one more side effect of testing services that synchronously communicates with dependent services.
 
-First, lets take a look back on the NSB version of scenario:
+First, lets take a look back at the message bus version of the scenario:
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
@@ -274,26 +262,26 @@ then  => Application_should_have_declined_status(),
 and   => An_email_with_decline_reason_should_be_sent_to_customer()
 ```
 
-Lets now imagine that when customer submits an application, the application itself changes status to 'submitted' state, and then decision request is being sent to the Decision Service.
-What if we would like to just check, that the application status has been changed correctly?
+Let's now imagine that when a customer submits an application, the application itself changes status to 'submitted' state, and then the decision request is being sent to the Decision Service.
+What if we would like to just check, that the application status has been changed correctly and don't care about any of the subsequent steps?
 
-With the NSB approach, we could just write scenario like:
+With the NSB approach, we could just write a scenario like this and it would be fine:
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
 then  => Application_should_have_submitted_status(),
 ```
 
-It would be perfectly fine. Of course the service would still send a request to the Decision Service (like in original scenario), but as we are not going to do anything with it, the service will stop processing this application, because it would never receive a response from mocked Decision Service.
+Of course the service would still send a request to the Decision Service (like in original scenario), but as we are not going to do anything with it, the service will stop processing this application, because it would never receive a response from mocked Decision Service.
 
 Now, if the same communication would be made via HTTP, the story would be slightly different.
-Theoretically we still should be able to write test scenario in the same form, and if we run it, it should be green.
-However, we will also see a lot of errors in the logs, as our service will not stop on changing application state to 'submitted', but it will be also attempting to retrieve decision from Decision Service.
-Because we have not mocked this behaviour, the response would be invalid and operation would be failing, causing error entries appearing in logs. The service would probably try to retry the failing operation, causing even more errors. Those error entries would be blending easily with other errors signalling 'a real' issue with the service, so we were not happy about receiving them.
+Theoretically we still should be able to write the test scenario in the same form, and if we run it, it should be green.
+However, we will also see a lot of errors in the logs, as our service will not stop on changing application state to 'submitted', but it will be also attempting to retrieve a decision from the Decision Service.
+Because we have not mocked this behaviour, the response would be invalid and operation would be failing, causing error entries in the logs. The service would probably attempt to retry the failing operation, causing even more errors. Those error entries would be blending easily with other errors signalling 'a real' issue with the service, so there would be a lot of noise and we would find it hard to diagnose the real problems.
 
-So, what we did to do to avoid such errors was to:
+So, what we did to avoid such errors was:
 
-* mock all APIs with a default behaviour on test startup (where the API behaviour can be still customised during test),
-* on test tear down, go through all applications that has been created during test and bring them to a final state, to ensure that service will not try to perform any more operations on them after test, so when mocked API definitions would not exist any more.
+* mock all APIs with a default behaviour on test startup (where the API behaviour can still be customised during the test),
+* on test tear down, go through all applications that have been created during the test and bring them to a stable final state, to ensure that service will not try to perform any more operations on them after our test, so when mocked API definitions would not exist any more.
 
-Those two changes allowed us to still have a clear test scenarios, without a need of adding steps just to ensure that tested service has finished work before test finish.
+Those two changes allowed us maintain simple test scenarios which have a clear intent, without adding steps just to ensure that tested service has finished work before the test finishes.
