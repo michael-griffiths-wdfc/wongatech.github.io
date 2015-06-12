@@ -88,7 +88,7 @@ In order to mock service dependencies, we have to redirect all those messages to
   </UnicastBusConfig>
 ```
 
-We achieve the desired change in the service configuration by applying a [CTT][https://ctt.codeplex.com/] transform when we deploy our service in the test environment (We actually perform this step for all environments to get the desired configuration not just in our test environments)
+We achieve the desired change in the service configuration by applying a [CTT](https://ctt.codeplex.com/) transform when we deploy our service in the test environment (We actually perform this step for all environments to get the desired configuration not just in our test environments)
 
 Now, during test execution, we can:
 
