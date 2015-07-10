@@ -3,6 +3,8 @@ title: Dependency Injection on Drupal 6
 author: maurogadaleta
 ---
 
+![Drupal Logo](/images/2015-07-10-dependency-injection-on-drupal-6/drupalicon.png)
+
 [Dependency injection](http://martinfowler.com/articles/injection.html) is a
 pattern that promotes loose coupling between classes and subsystems, creating
 components that are easy to unit test in isolation. Instead of hard-coding the
