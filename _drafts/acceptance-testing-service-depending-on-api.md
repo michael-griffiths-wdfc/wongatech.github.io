@@ -104,7 +104,7 @@ private void Customer_should_receive_an_email_for_declined_application()
         given => An_application(),
         when  => Customer_submits_application(),
         and   => Decision_service_declines_application(),
-        then  => Application_should_has_declined_status(),
+        then  => Application_should_have_declined_status(),
         and   => An_email_with_decline_reason_should_be_sent_to_customer()
     );
 }
@@ -131,7 +131,7 @@ private void Decision_service_declines_application()
     TestEndpoint.Bus.Send<IApplicationDeclined>(message => message.ApplicationId = _applicationId);
 }
 
-private void Application_should_has_declined_status()
+private void Application_should_have_declined_status()
 {
     // assert declined status on application
 }
@@ -172,7 +172,7 @@ private void Customer_should_receive_an_email_for_declined_application()
         given => An_application(),
         and   => Application_does_not_contain_sufficient_data_to_be_accepted(),
         when  => Customer_submits_application(),
-        then  => Application_should_has_declined_status(),
+        then  => Application_should_have_declined_status(),
         and   => An_email_with_decline_reason_should_be_sent_to_customer()
     );
 }
@@ -258,7 +258,7 @@ First, lets take a look back at the message bus version of the scenario:
 given => An_application(),
 when  => Customer_submits_application(),
 and   => Decision_service_declines_application(),
-then  => Application_should_has_declined_status(),
+then  => Application_should_have_declined_status(),
 and   => An_email_with_decline_reason_should_be_sent_to_customer()
 ```
 
@@ -269,7 +269,7 @@ With the NSB approach, we could just write a scenario like this and it would be 
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
-then  => Application_should_has_submitted_status(),
+then  => Application_should_have_submitted_status(),
 ```
 
 Of course the service would still send a request to the Decision Service (like in original scenario), but as we are not going to do anything with it, the service will stop processing this application, because it would never receive a response from mocked Decision Service.
