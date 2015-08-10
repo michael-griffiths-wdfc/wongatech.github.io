@@ -14,7 +14,7 @@ For each service that we are building, we have dedicated service level acceptanc
 While all internal parts of a service are wired up (i.e. its database, REST API endpoints and NServiceBus endpoint), all external dependencies are being mocked at this point.
 It means that service is not physically communicating to any other services, but instead our test framework is simulating their behaviour.
 
-![Acceptance testing](acceptance_tests.gif)
+![Acceptance testing](/images/2015-08-10-acceptance-testing-service-depending-on-api/acceptance-testing-service-depending-on-api.gif)
 
 Testing a service in isolation gives us benefits like:
 
