@@ -96,6 +96,7 @@ Now, during test execution, we can:
 * Emulate the behavior of an external service by sending its messages to the service queue.
 
 An example scenario could look like this (The interesting stuff is in the ```Decision_service_declines_application``` method):
+
 ```c#
 [Test]
 private void Customer_should_receive_an_email_for_declined_application()
@@ -151,6 +152,7 @@ The great thing about mocking services that use a message bus, is that it is pos
 ## 4. Mocking dependencies that uses HTTP protocol (REST API)
 
 Mocking a REST API (or any other HTTP based API) also looks fairly simple. In this case, our service under test would have a setting like this:
+
 ```xml
 <appSettings>
     <add key="ExternalApiBaseUrl" value="http://some-host:1234/external-api" />
@@ -234,6 +236,7 @@ There is at least few open-source projects on GitHub that could be used for that
 We are currently using the SimpleHttpMock.
 
 Here is an example implementation of setting up a declined application using the ad-hoc SimpleHttpMock:
+
 ```c#
 private void Application_does_not_contain_sufficient_data_to_be_accepted()
 {
@@ -254,6 +257,7 @@ Also, while with MounteBank, all the projects were using the same physical insta
 There is one more side effect of testing services that synchronously communicates with dependent services.
 
 First, lets take a look back at the message bus version of the scenario:
+
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
@@ -266,6 +270,7 @@ Let's now imagine that when a customer submits an application, the application i
 What if we would like to just check, that the application status has been changed correctly and don't care about any of the subsequent steps?
 
 With the NSB approach, we could just write a scenario like this and it would be fine:
+
 ```c#
 given => An_application(),
 when  => Customer_submits_application(),
