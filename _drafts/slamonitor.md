@@ -1,3 +1,9 @@
+---
+layout: post
+title: SLAMonitor
+author: aidanmcginley
+---
+
 This is a post about our motivations for creating [SLAMonitor](https://github.com/wongatech/SLAMonitor) and some of the design decisions behind it.
 Whilst developing some of our new services, [Suremaker]() and I wanted a mechanism to track how calls to external services were performing, we had a few simple requirements
 
