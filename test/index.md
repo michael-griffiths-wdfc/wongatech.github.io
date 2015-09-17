@@ -6,7 +6,7 @@ layout: default
 
 Please see below for our programming test. Read the instructions and upload your submission once you're done.
 
-[UPLOAD YOUR SUBMISSION]()
+<a href="#" class="button">Upload your submission</a>
 
 ## Guidelines
 
@@ -17,11 +17,11 @@ Please see below for our programming test. Read the instructions and upload your
 
 ## The problem
 
-A small airline wants a simple program that produces flight summary reports based on flight, route and passenger data. 
+A small airline wants a simple program that produces flight summary reports based on flight, route and passenger data.
 
 There are three types of passenger the airline will cater for:
 
-1. General – normal fare-paying passengers 
+1. General – normal fare-paying passengers
 2. Loyalty Members – repeat customers who get benefits for choosing to fly with the airline
 3. Airline Employees – employees of the airline who fly with the airline for free
 
@@ -33,16 +33,16 @@ Write a console application that accepts two filenames, the first is an input fi
 
 ### Input
 
-The format of the input file is a set of lines that represent either plane, route or passenger information. Your program should read each line in the input file and process each instruction. 
+The format of the input file is a set of lines that represent either plane, route or passenger information. Your program should read each line in the input file and process each instruction.
 
 For example:
 
 ```
 add route London Dublin 100 150 75
 add aircraft Gulfstream-G550 8
-add airline Trevor 54	
-add general Mark 35			
-add loyalty Joan 56 100 FALSE TRUE 	
+add airline Trevor 54
+add general Mark 35
+add loyalty Joan 56 100 FALSE TRUE
 ```
 
 An input file must add only one route and one aircraft.
@@ -74,7 +74,7 @@ origin = identifier								; the name of the origin city.
 destination = identifier    					; the name of the destination city.
 cost-per-passenger = numeric					; the cost to the airline per passenger of flying the route, in whole £.
 ticket-price = numeric							; the price of the ticket in whole £.
-minimum-takeoff-load-percentage = percentage    ; the minimum percentage of the plane's capacity that must be used for the 
+minimum-takeoff-load-percentage = percentage    ; the minimum percentage of the plane's capacity that must be used for the
 												; route to be able to fly.
 
 aircraft-title = identifier 					; the name of the plane.
@@ -85,14 +85,14 @@ age = numeric									; the age of the passenger in years.
 
 current-loyalty-points = numeric				; the number of loyalty points the customer currently has, before
 												; embarking on the current flight.
-using-loyalty-point = boolean					; whether or not the passenger is using their loyalty points to pay 
-												; for the flight. 
+using-loyalty-point = boolean					; whether or not the passenger is using their loyalty points to pay
+												; for the flight.
 												; if the number of loyalty points is less than the ticket cost then
 												; the customer pays the remainder.
 using-extra-baggage	= boolean					; whether or not the passenger is bringing an extra bag.
 
 percentage = %d0-100
-identifier = 1*ALPHA 
+identifier = 1*ALPHA
 numeric = 1*DIGIT
 boolean = "TRUE" / "FALSE"
 ```
@@ -102,16 +102,16 @@ boolean = "TRUE" / "FALSE"
 Your program should read the input file, compute a flight summary report and write it to the output file in the following format, again in ABNF:
 
 ```
-output-line =   total-passenger-count SP	
-                general-passenger-count SP 
-				airline-passenger-count SP 
-				loyalty-passenger-count SP 
+output-line =   total-passenger-count SP
+                general-passenger-count SP
+				airline-passenger-count SP
+				loyalty-passenger-count SP
 				total-number-of-bags SP
-				total-loyalty-points-redeemed SP	
-				total-cost-of-flight SP 
-				total-unadjusted-ticket-revenue	SP 
-				total-adjusted-revenue SP 
-				can-flight-proceed 
+				total-loyalty-points-redeemed SP
+				total-cost-of-flight SP
+				total-unadjusted-ticket-revenue	SP
+				total-adjusted-revenue SP
+				can-flight-proceed
 
 
 total-passenger-count = numeric 				; total number of passengers on the flight
@@ -144,14 +144,14 @@ A flight proceeds only if all of the following rules are met:
 ```
 add route London Dublin 100 150 75
 add aircraft Gulfstream-G550 8
-add general Mark 35			
-add general Tom 15			
-add general James 72			
-add airline Trevor 54			
-add loyalty Alan 65 50 FALSE FALSE	
-add loyalty Susie 21 40 TRUE FALSE	
-add loyalty Joan 56 100 FALSE TRUE 	
-add general Jack 50 			
+add general Mark 35
+add general Tom 15
+add general James 72
+add airline Trevor 54
+add loyalty Alan 65 50 FALSE FALSE
+add loyalty Susie 21 40 TRUE FALSE
+add loyalty Joan 56 100 FALSE TRUE
+add general Jack 50
 ```
 
 ##### Output
@@ -160,20 +160,20 @@ add general Jack 50
 ```
 
 This flight can proceed.
-	
+
 ##### Input
 
 ```
 add route London Dublin 100 150 75
 add aircraft Gulfstream-G550 12
-add general Mark 35			
-add general Tom 15			
-add general James 72			
-add general Jack 50 			
-add airline Jane 75			
+add general Mark 35
+add general Tom 15
+add general James 72
+add general Jack 50
+add airline Jane 75
 add general Steve 20
 ```
-	
+
 ##### Output
 
 ```
