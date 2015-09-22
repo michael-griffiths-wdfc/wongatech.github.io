@@ -4,38 +4,58 @@ layout: default
 
 # Programming test
 
-Please see below for our programming test. Read the instructions and upload your submission once you're done.
+Please see below for our programming test. Read the instructions and upload your
+submission to our Dropbox once you're done.
 
-<a href="#" class="button">Upload your submission</a>
+<a href="https://www.dropbox.com/request/hPxLR2JmZr8BMEMDfwY8"
+class="button">Upload your submission</a>
 
 Thanks!
 
-## Guidelines
+# Instructions
 
+The purpose of the exercise is to evaluate your approach to software development
+covering, among other things, object-oriented design, design patterns and
+testing.
+
+- Complete the exercise in the language of your choice.
 - We recommend you spend 2-3 hours on your submission.
-- Structure your code as if this was a real production application.
-- State any assumptions you make as comments in the code. If any aspects of the specification are unclear, please state your interpretation of the requirement as comments in the source.
+- Structure your code as if this were a real production application.
+- State any assumptions you make as comments in the code. If any aspects of the
+  specification are unclear, please state your interpretation of the requirement
+  as comments in the source.
 - Please include instructions on how to run your program in your submission.
 
 ## The problem
 
-A small airline wants a simple program that produces flight summary reports based on flight, route and passenger data.
+A small airline wants a simple program that produces flight summary reports
+based on flight, route and passenger data.
 
 There are three types of passenger the airline will cater for:
 
-1. General – normal fare-paying passengers
-2. Loyalty Members – repeat customers who get benefits for choosing to fly with the airline
-3. Airline Employees – employees of the airline who fly with the airline for free
+1. General – normal fare-paying passengers.
+2. Loyalty Members – repeat customers who get benefits for choosing to fly with
+   the airline.
+3. Airline Employees – employees of the airline who fly with the airline for
+   free.
 
-For each flight the airline charges a base ticket price for a specific route however loyalty members can choose to pay with their loyalty points instead. Loyalty points are worth £1 each. Airline employees always fly free. All passengers are allocated 1 bag and loyalty members are allowed 1 extra bag. For simplicity, we assume that every passenger will bring at least 1 bag.
+For each flight the airline charges a base ticket price for a specific route
+however loyalty members can choose to pay with their loyalty points instead.
+Loyalty points are worth £1 each. Airline employees always fly free. All
+passengers are allocated 1 bag and loyalty members are allowed 1 extra bag. For
+simplicity, we assume that every passenger will bring at least 1 bag.
 
 ## Your task
 
-Write a console application that accepts two filenames, the first is an input file, containing route, plane and passenger data, the second will be the output file to which the flight summary report must be written.
+Write a console application that accepts two filenames, the first is an input
+file, containing route, plane and passenger data, the second will be the output
+file to which the flight summary report must be written.
 
 ### Input
 
-The format of the input file is a set of lines that represent either plane, route or passenger information. Your program should read each line in the input file and process each instruction.
+The format of the input file is a set of lines that represent either plane,
+route or passenger information. Your program should read each line in the input
+file and process each instruction.
 
 For example:
 
@@ -51,9 +71,11 @@ An input file must add only one route and one aircraft.
 
 #### Input format specification
 
-The format of instruction lines is specified below in [ABNF](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
+The format of instruction lines is specified below in
+[ABNF](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
 
-If you are not familiar with ABNF, take some time to read the [Wikipedia entry](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
+If you are not familiar with ABNF, take some time to read the [Wikipedia
+entry](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
 
 ```
 instruction-line = add-route CRLF add-aircraft CRLF 1*add-passenger
@@ -100,7 +122,8 @@ boolean = "TRUE" / "FALSE"
 
 ### Output
 
-Your program should read the input file, compute a flight summary report and write it to the output file in the following format, again in ABNF:
+Your program should read the input file, compute a flight summary report and
+write it to the output file in the following format, again in ABNF:
 
 ```
 output-line = total-passenger-count SP
@@ -137,9 +160,10 @@ boolean = "TRUE" / "FALSE"
 
 A flight proceeds only if all of the following rules are met:
 
-1. The total adjusted revenue for the flight exceeds the total cost of the flight
-2. The number of passengers does not exceed the number of seats on the plane
-3. The percentage of booked seats exceeds the minimum set for the route
+1. The total adjusted revenue for the flight exceeds the total cost of the
+   flight.
+2. The number of passengers does not exceed the number of seats on the plane.
+3. The percentage of booked seats exceeds the minimum set for the route.
 
 ### Example input and output
 
