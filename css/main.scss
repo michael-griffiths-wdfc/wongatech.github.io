@@ -16,6 +16,7 @@
 $base-font-family: "Omnes", sans-serif;
 $base-font-size:   20px;
 $small-font-size:  $base-font-size * 0.875;
+$code-font-size:  $base-font-size * 0.7;
 $base-line-height: 1.5;
 
 $spacing-unit:     30px;
@@ -30,7 +31,7 @@ $grey-color-light: lighten($grey-color, 40%);
 $grey-color-dark:  darken($grey-color, 25%);
 
 // Width of the content area
-$content-width:    800px;
+$content-width:    900px;
 
 $on-palm:          600px;
 $on-laptop:        800px;
@@ -48,11 +49,27 @@ $on-laptop:        800px;
     }
 }
 
-
-
 // Import partials from `sass_dir` (defaults to `_sass`)
 @import
         "base",
         "layout",
         "syntax-highlighting"
 ;
+
+// custom bits
+a.button {
+  display: block;
+  padding: 20px 30px;
+  background-color: $brand-color;
+  color: white;
+  border-radius: 10px;
+  font-size: 1.25em;
+  margin: 1em auto;
+  width: 12em;
+  text-align: center;
+  transition: background-color .2s;
+}
+a.button:hover {
+  background-color: darken($brand-color, 15%);
+  transition: background-color .2s;
+}
