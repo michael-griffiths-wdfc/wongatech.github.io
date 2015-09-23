@@ -15,16 +15,15 @@ Thanks!
 # Instructions
 
 The purpose of the exercise is to evaluate your approach to software development
-covering, among other things, object-oriented design, design patterns and
-testing.
+including object-oriented design, design patterns and testing.
 
 - Complete the exercise in the language of your choice.
 - We recommend you spend 2-3 hours on your submission.
 - Structure your code as if this were a real production application.
-- State any assumptions you make as comments in the code. If any aspects of the
-  specification are unclear, please state your interpretation of the requirement
-  as comments in the source.
-- Please include instructions on how to run your program in your submission.
+- State any assumptions you make as comments in the code. If any aspect of the
+  specification is unclear, state your interpretation of the requirement in a
+  comment.
+- Please include instructions on how to run your program.
 
 ## The problem
 
@@ -39,8 +38,8 @@ There are three types of passenger the airline will cater for:
 3. Airline Employees – employees of the airline who fly with the airline for
    free.
 
-For each flight the airline charges a base ticket price for a specific route
-however loyalty members can choose to pay with their loyalty points instead.
+For each flight the airline charges a base ticket price for a specific route.
+Loyalty members can choose to pay with their loyalty points instead.
 Loyalty points are worth £1 each. Airline employees always fly free. All
 passengers are allocated 1 bag and loyalty members are allowed 1 extra bag. For
 simplicity, we assume that every passenger will bring at least 1 bag.
@@ -48,7 +47,7 @@ simplicity, we assume that every passenger will bring at least 1 bag.
 ## Your task
 
 Write a console application that accepts two filenames, the first is an input
-file, containing route, plane and passenger data, the second will be the output
+file, containing route, plane and passenger data, the second is an output
 file to which the flight summary report must be written.
 
 ### Input
@@ -69,7 +68,7 @@ add loyalty Joan 56 100 FALSE TRUE
 
 An input file must add only one route and one aircraft.
 
-#### Input format specification
+### Input format specification
 
 The format of instruction lines is specified below in
 [ABNF](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
@@ -80,8 +79,8 @@ entry](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
 ```
 instruction-line = add-route CRLF add-aircraft CRLF 1*add-passenger
 
-add-route = "add route" SP origin SP destination SP cost-per-passenger SP ticket-price SP minimum-takeoff-load-percentage CRLF
-add-aircraft = "add aircraft" SP aircraft-title SP number-of-seats CRLF
+add-route = "add route" SP origin SP destination SP cost-per-passenger SP ticket-price SP minimum-takeoff-load-percentage
+add-aircraft = "add aircraft" SP aircraft-title SP number-of-seats
 add-passenger = "add" SP (general-passenger / airline-passenger / loyalty-passenger) CRLF
 
 general-passenger = "general" SP first-name SP age
