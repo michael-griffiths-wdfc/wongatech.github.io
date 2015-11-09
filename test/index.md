@@ -5,7 +5,7 @@ layout: default
 # Programming test
 
 Please see below for our programming test. Read the instructions and upload your
-submission to our Dropbox once you're done.
+submission to our Dropbox as a compressed file (zip/tar) once you're done.
 
 <a href="https://www.dropbox.com/request/hPxLR2JmZr8BMEMDfwY8"
 class="button">Upload your submission</a>
