@@ -135,7 +135,7 @@ With Multimocks, your mock responses are created in JSON and stored on the files
 ```
 
 With Multimocks, developers can have a more realistic UX by adding delays globally
-or to individual API calls. This can be disable during automated test execution to
+or to individual API calls. This can be disabled during automated test execution to
 keep run-time down.
 
 ### Scenarios
@@ -240,7 +240,7 @@ Mocks need to be maintained, if an API changes then the mocks need to be
 updated to match. If not, your tests may pass and when deployed the app
 might not work.
 
-You will still need to do of integration testing. At Wonga we also demo features to
+You will still need to do integration testing. At Wonga we also demo features to
 stakeholders once they're done. As our stakeholders are familiar with the feature
 requirements, they flag up issues and suggest more cases to test.
 
