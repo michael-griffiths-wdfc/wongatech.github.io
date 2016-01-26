@@ -1,12 +1,12 @@
 # Turbocharge your development and testing with Angular Multimocks
 
-If you develop web applications, you hopefully spend a lot of time testing your
-application works well. This can be done through end to end tests or manual
+If you develop web applications, you hopefully spend a lot of time testing that
+your application works well. This can be done through end to end tests or manual
 testing.
 
 As a good engineer, you want to make sure your application works in **all**
-possible situations. This means you should verify your application with
-different responses from your backend.
+possible situations. If your application makes API calls this means you
+should test your application with different responses from your backend.
 
 **You need to mock your backend.**
 
@@ -16,20 +16,16 @@ compose mocks.
 
 ## My app works already, why are you making me do more work?
 
+If your goal in testing is to do a full integration test of your stack
+then mocking the backend is probably counter productive.
+
 If your application makes very few API calls or the UX doesn't change based
 on different API responses then simple `$httpBackend` calls make sense.
 
-As the scale of you application grows, it becomes difficult to manage the
-mocks, change scenarios on the fly and test UX interactions.
+As applications grow in size and complexity, it becomes difficult to manage
+the mocks, change scenarios and test complex UX interactions.
 
 ## Cool, but do I really have to?
-
-### Don’t fool yourself.
-
-When every API call is mocked during development, you don't experience what a
-customer would see when using your application.
-Developers then don’t see what would be obvious gaps in UX. E.g. forgetting to
-implement a loader GIF when making a long API call.
 
 ### Whoa, what is this mess?
 
@@ -62,7 +58,14 @@ myAppDev.run(function($httpBackend) {
 });
 ```
 
-### Don't use a real backend. No seriously, don't
+### The real world is async.
+
+When every API call is mocked during development, you don't experience what a
+customer would when using your application. Developers might miss obvious
+gaps in UX. E.g. forgetting to implement a loader GIF when making a long
+API call.
+
+### Real backends are inconstant and inflexible
 
 Instead of mocking an API some developers use a real backend. If you use a
 real backend, ask yourself the following questions:
@@ -75,7 +78,7 @@ real backend, ask yourself the following questions:
 Some people get around these issues with a fake backend service that is
 spawned locally.
 
-### Change places!
+### Exploring your application's dark corners
 
 So your backend team has built you an entire mock implementation of their
 backend. This mock implementation will return standard responses for every
@@ -169,7 +172,7 @@ the user is in the `someItems` scenario the response defined in
 
 As you start to scale your application, the power of composable scenarios
 will become apparent. The folder structure and the mock manifest make it easy to
-simulate a different states of your application.
+simulate different states of your application.
 
 Here you can see how we might have a number of scenarios which have the same
 password authentication API call. By default the passcode authentication API
