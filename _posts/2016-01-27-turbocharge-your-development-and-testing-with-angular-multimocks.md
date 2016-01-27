@@ -4,8 +4,8 @@ author: nabilboag
 ---
 
 This post is going to explain the benefits of testing your application
-with a mocked backend and how Angular Multimocks can help organise and
-compose mocks for Angular applications.
+with a mocked backend and how [Angular Multimocks](https://github.com/wongatech/angular-multimocks)
+can help organise and compose mocks for Angular applications.
 
 If you develop web applications, you hopefully spend a lot of time testing that
 your application works well. You can test your app manually by interacting with
@@ -249,4 +249,6 @@ requirements, they flag up issues and suggest more cases to test.
 
 ## Help make Multimocks better
 
-We :heart: pull requests!
+We love pull requests!
+
+[github.com/wongatech/angular-multimocks](https://github.com/wongatech/angular-multimocks)
