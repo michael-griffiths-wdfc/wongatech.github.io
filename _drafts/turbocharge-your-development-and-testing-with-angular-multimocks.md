@@ -1,4 +1,7 @@
-# Turbocharge your development and testing with Angular Multimocks
+---
+title: Turbocharge your development and testing with Angular Multimocks
+author: nabilboag
+---
 
 If you develop web applications, you hopefully spend a lot of time testing that
 your application works well. You can test your app manually by interacting with
