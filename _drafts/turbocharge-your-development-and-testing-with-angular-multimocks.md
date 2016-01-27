@@ -37,13 +37,6 @@ UX interactions.
 
 ## The hell that awaits those who do not mock
 
-### The real world is asynchronous
-
-When every API call is mocked during development, you don't experience what a
-customer would when using your application. Developers might miss obvious
-gaps in UX. E.g. forgetting to implement a loader animation when making a long
-API call.
-
 ### Real backends are inconstant and inflexible
 
 Instead of mocking an API some developers use a real backend. If you use a
@@ -76,6 +69,8 @@ $httpBackend.whenGET('/users').respond('foo');
 What if I want the `GET` call to `/users` to return `bar` instead of `foo`?
 
 ## What about `ngMock`?
+
+### A slippery slope to unmaintainable code
 
 If your project has hard-coded mocks, then you know it can get messy.
 Here's a really simple set of mocks for an Angular application:
@@ -113,6 +108,13 @@ myAppDev.run(function($httpBackend) {
 
 As you add more responses and those responses grow in complexity, this
 quickly becomes unmanageable.
+
+### The real world is asynchronous
+
+When every API call is mocked during development, you don't experience what a
+customer would when using your application. Developers might miss obvious
+gaps in UX. E.g. forgetting to implement a loader animation when making a long
+API call.
 
 ## Enter our superhero: Angular Multimocks
 
