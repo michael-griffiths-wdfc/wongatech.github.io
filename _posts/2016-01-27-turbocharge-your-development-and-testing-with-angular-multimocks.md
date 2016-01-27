@@ -3,6 +3,10 @@ title: Turbocharge your development and testing with Angular Multimocks
 author: nabilboag
 ---
 
+This post is going to explain the benefits of testing your application
+with a mocked backend and how Angular Multimocks can help organise and
+compose mocks for Angular applications.
+
 If you develop web applications, you hopefully spend a lot of time testing that
 your application works well. You can test your app manually by interacting with
 the UI or you can write automated tests.
@@ -12,12 +16,6 @@ of different scenarios. Your customer is visiting for the first time, they're
 making a purchase, they've requested a return, they're using a voucher code, and
 so on. If your application makes API calls this means you should test your
 application with different responses from your backend.
-
-**You need to mock your backend.**
-
-This post is going to explain the benefits of testing your application
-with a mocked backend and how Angular Multimocks can help organise and
-compose mocks for Angular applications.
 
 ## My app works already, why are you making me do more work?
 
