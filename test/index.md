@@ -20,10 +20,8 @@ including object-oriented design, design patterns and testing.
 - Complete the exercise in the language of your choice.
 - We recommend you spend 2-3 hours on your submission.
 - Structure your code as if this were a real production application.
-- State any assumptions you make as comments in the code. If any aspect of the
-  specification is unclear, state your interpretation of the requirement in a
-  comment.
-- Please include instructions on how to run your program.
+- State any assumptions you make as comments in the code.
+- Please include a readme on how to run your program.
 
 ## The problem
 
@@ -59,100 +57,49 @@ file and process each instruction.
 For example:
 
 ```
-add route London Dublin 100 150 75
+add route London Dublin 100 150
 add aircraft Gulfstream-G550 8
-add airline Trevor 54
-add general Mark 35
-add loyalty Joan 56 100 FALSE TRUE
+add passenger airline Trevor
+add passenger general Mark
+add passenger loyalty Joan 100 FALSE TRUE
 ```
+
+```
+add route {origin} {desination} {cost-to-airline-per-passenger} {ticket-price}
+add aircraft {aircraft-model} {total-seats}
+add passenger general {passenger-name}
+add passenger airline {passenger-name}
+add passenger loyalty {passenger-name} {current-loyalty-points} {using-loyalty-points} {has-extra-bag}
+```
+
+Loyalty passengers are able to use loyalty points for discounts against tickets.
+
+If they are using their loyalty points then £1 is taken off the price
+of the ticket for every loyalty point used. These customers then pay the
+remainder of the normal ticket price.
+
+Loyalty passengers have the option to bring an extra bag.
 
 An input file must add only one route and one aircraft.
-
-### Input format specification
-
-The format of instruction lines is specified below in
-[ABNF](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
-
-If you are not familiar with ABNF, take some time to read the [Wikipedia
-entry](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_Form).
-
-```
-instruction-line = add-route CRLF add-aircraft CRLF 1*add-passenger
-
-add-route = "add route" SP origin SP destination SP cost-per-passenger SP ticket-price SP minimum-takeoff-load-percentage
-add-aircraft = "add aircraft" SP aircraft-title SP number-of-seats
-add-passenger = "add" SP (general-passenger / airline-passenger / loyalty-passenger) CRLF
-
-general-passenger = "general" SP first-name SP age
-airline-passenger = "airline" SP first-name SP age
-loyalty-passenger = "loyalty" SP first-name SP age SP current-loyalty-points SP using-loyalty-points SP using-extra-baggage
-
-origin = identifier                           ; the name of the origin city
-destination = identifier                      ; the name of the destination city
-cost-per-passenger = numeric                  ; the cost to the airline per passenger of flying
-                                              ; the route in whole £
-ticket-price = numeric                        ; the price of the ticket in whole £
-minimum-takeoff-load-percentage = percentage  ; the minimum percentage of the plane's capacity
-                                              ; that must be used for the route to be able to
-                                              ; fly
-
-aircraft-title = identifier                   ; the name of the plane
-number-of-seats = numeric                     ; the total number of seats on the plane
-
-first-name = identifier                       ; the first name of the passenger
-age = numeric                                 ; the age of the passenger in years
-
-current-loyalty-points = numeric              ; the number of loyalty points the customer
-                                              ; currently has, before embarking on the
-                                              ; current flight
-using-loyalty-point = boolean                 ; whether or not the passenger is using
-                                              ; loyalty points to pay for the flight
-                                              ; if the number of loyalty points is less
-                                              ; than the ticket cost then the customer
-                                              ; pays the remainder
-using-extra-baggage = boolean                 ; whether or not the passenger is bringing
-                                              ; an extra bag
-
-percentage = %d0-100
-identifier = 1*ALPHA
-numeric = 1*DIGIT
-boolean = "TRUE" / "FALSE"
-```
 
 ### Output
 
 Your program should read the input file, compute a flight summary report and
-write it to the output file in the following format, again in ABNF:
+write it to the output JSON file.
 
 ```
-output-line = total-passenger-count SP
-              general-passenger-count SP
-              airline-passenger-count SP
-              loyalty-passenger-count SP
-              total-number-of-bags SP
-              total-loyalty-points-redeemed SP
-              total-cost-of-flight SP
-              total-unadjusted-ticket-revenue SP
-              total-adjusted-revenue SP
-              can-flight-proceed
-
-total-passenger-count = numeric           ; total number of passengers on the flight
-general-passenger-count = numeric         ; number of general passengers on the flight
-airline-passenger-count = numeric         ; number of airline passengers on the flight
-loyalty-passenger-count numeric           ; number of loyalty passengers on the flight
-total-number-of-bags = numeric            ; the total number of bags on the plane
-total-loyalty-points-redeemed = numeric   ; the total number of loyalty points redeemed by
-                                          ; all passengers
-total-cost-of-flight = numeric            ; the total cost to the airline of running the flight
-total-unadjusted-ticket-revenue = numeric ; the total ticket revenue, ignoring loyalty
-                                          ; and airline passenger adjustments
-total-adjusted-revenue = numeric          ; the total ticket revenue, after adjusting for
-                                          ; loyalty members points and airline passengers
-can-flight-proceed = boolean              ; can the flight proceed, according to the rules
-                                          ; defined below
-
-numeric = ["-"] 1*DIGIT
-boolean = "TRUE" / "FALSE"
+{
+  "passengers": {number}, // total number of passengers on the flight
+  "generalPassengers": {number}, // number of general passengers on the flight
+  "airlinePassengers": {number}, // number of airline passengers on the flight
+  "loyaltyPassengers": {number}, // number of loyalty passengers on the flight
+  "bags": {number}, // the total number of bags on the plane
+  "loyaltyPointsUsed": {number}, // the total number of loyalty points redeemed by all passengers
+  "costOfFlight": {number}, // the total cost to the airline of running the flight
+  "revenueBeforeDiscounts": {number}, // the total ticket revenue, ignoring loyalty and airline passenger adjustments
+  "revenueAfterDiscounts": {number}, // the total ticket revenue, after adjusting for loyalty members points and airline passengers
+  "canFlightProceed": {boolean} // can the flight proceed, according to the rules defined below
+}
 ```
 
 ### Flight rules
@@ -162,48 +109,70 @@ A flight proceeds only if all of the following rules are met:
 1. The total adjusted revenue for the flight exceeds the total cost of the
    flight.
 2. The number of passengers does not exceed the number of seats on the plane.
-3. The percentage of booked seats exceeds the minimum set for the route.
 
 ### Example input and output
 
-#### Input
+#### Input file
 ```
-add route London Dublin 100 150 75
+add route London Dublin 100 150
 add aircraft Gulfstream-G550 8
-add general Mark 35
-add general Tom 15
-add general James 72
-add airline Trevor 54
-add loyalty Alan 65 50 FALSE FALSE
-add loyalty Susie 21 40 TRUE FALSE
-add loyalty Joan 56 100 FALSE TRUE
-add general Jack 50
+add passenger general Mark
+add passenger general Tom
+add passenger general James
+add passenger airline Trevor
+add passenger loyalty Alan 50 FALSE FALSE
+add passenger loyalty Susie 40 TRUE FALSE
+add passenger loyalty Joan 100 FALSE TRUE
+add passenger general Jack
 ```
 
-#### Output
+#### Output file
 ```
-8 4 1 3 9 40 800 1200 1010 TRUE
+{
+  "passengers": 8,
+  "generalPassengers": 4,
+  "airlinePassengers": 1,
+  "loyaltyPassengers": 3,
+  "bags": 9,
+  "loyaltyPointsUsed": 40,
+  "costOfFlight": 800,
+  "revenueBeforeDiscounts": 1200,
+  "revenueAfterDiscounts": 1010,
+  "canFlightProceed": true
+}
 ```
 
 This flight can proceed.
 
-#### Input
+#### Input file
 
 ```
-add route London Dublin 100 150 75
+add route London Dublin 100 150
 add aircraft Gulfstream-G550 12
-add general Mark 35
-add general Tom 15
-add general James 72
-add general Jack 50
-add airline Jane 75
-add general Steve 20
+add passenger general Mark
+add passenger general Tom
+add passenger general James
+add passenger airline Jack
+add passenger airline Jane
+add passenger airline Steve
 ```
 
-#### Output
+#### Output file
 
 ```
-6 5 1 0 6 0 600 900 750 FALSE
+{
+  "passengers": 6,
+  "generalPassengers": 3,
+  "airlinePassengers": 3,
+  "loyaltyPassengers": 0,
+  "bags": 6,
+  "loyaltyPointsUsed": 0,
+  "costOfFlight": 600,
+  "revenueBeforeDiscounts": 450,
+  "revenueAfterDiscounts": 450,
+  "canFlightProceed": false
+}
 ```
 
-This flight cannot proceed, it is less than 75% full.
+This flight cannot proceed, as revenue after discounts is less than the cost
+of the flight.
