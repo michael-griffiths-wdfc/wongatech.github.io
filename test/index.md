@@ -168,7 +168,7 @@ add passenger airline Steve
   "bags": 6,
   "loyaltyPointsUsed": 0,
   "costOfFlight": 600,
-  "revenueBeforeDiscounts": 450,
+  "revenueBeforeDiscounts": 900,
   "revenueAfterDiscounts": 450,
   "canFlightProceed": false
 }
